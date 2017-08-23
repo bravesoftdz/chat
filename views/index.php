@@ -37,18 +37,17 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-brand-centered">
             <ul class="nav navbar-nav">
-                <li><a href="#">Main</a></li>
+                <li><a href="/">Main</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-friend-list">
-                <li><a href="#">Friends <span id="friend-list-count" class="badge"><?= $this->request['count'] ?></span></a>
+                <li><a href="<?= $this->session->get('id') ? '/request' : '' ?>">Request <span id="request-count" class="badge"></span></a>
                 </li>
-                <? if (isset($_SESSION['user'])) : ?>
-                    <li id="user_id" data-id="<?= $_SESSION['id'] ?>"><a href=""><?= $_SESSION['user'] ?></a></li>
+                <? if (!empty($this->session->get('user'))) : ?>
+                    <li id="user_id" data-id="<?= $this->session->get('id') ?>"><a href=""><?= $this->session->get('user') ?></a></li>
                     <li><a href="login/logout">Exit</a></li>
                 <? else: ?>
                     <li><a href="login">Login</a></li>
                 <? endif; ?>
-
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -60,7 +59,7 @@
         <div class="col-sm-6 block-users">
             <div class="panel panel-default panel-users">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Users List <span id="friend-list-count" class="badge pull-right""><?= count($this->usersList) ?></span></h3>
+                    <h3 class="panel-title">Users List <span id="users-list-count" class="badge pull-right""><?= count($this->usersList) ?></span></h3>
                 </div>
                 <div class="panel-body">
                     <div class="table-container">
@@ -76,7 +75,7 @@
                                         <?= $user['name'] ?><br><i class="fa fa-envelope"></i>
                                     </td>
                                     <td align="center">
-                                        <?php if ($_SESSION['user']) { ?>
+                                        <?php if ($this->session->get('user')) { ?>
                                             <small class="text-muted">
                                                 <?php if (is_null($user['accepted'])): ?>
                                                 <button type="button" class="btn btn-default btn-send-user-request"  data-user="<?= $user['id'] ?>">
@@ -99,7 +98,7 @@
         </div>
 
         <div class="col-sm-6 block-friends">
-            <?php if ($_SESSION['user']) { ?>
+            <?php if ($this->session->get('user')) { ?>
                 <div class="panel panel-default panel-friend">
                     <div class="panel-heading">
                         <h3 class="panel-title">Friends List <span id="friend-list-count" class="badge pull-right""><?= count($this->friendsList) ?></span></h3>
@@ -182,7 +181,7 @@
     var channel = pusher.subscribe('chat-channel');
     channel.bind('request-event', function (data) {
         if (data.user.id == $('#user_id').data('id')) {
-            var tmp = $('#navbar-brand-centered span#friend-list-count');
+            var tmp = $('#navbar-brand-centered span#request-count');
             tmp.text(parseInt(tmp.html()) + 1);
         }
     });

@@ -96,21 +96,6 @@ final class UsersModel extends Model
     }
 
     /**
-     * Send Request to user
-     *
-     * @param $recipient_id
-     * @return mixed
-     */
-    public function sendRequest($recipient_id)
-    {
-        $currentUser = $_SESSION['id'];
-        $stmt        = $this->db->prepare('INSERT INTO request (sender_id, recipient_id, accepted) VALUES (:sender_id, :recipient_id, 0)');
-        $stmt->bindParam(":sender_id", $currentUser);
-        $stmt->bindParam(":recipient_id", $recipient_id);
-        return $stmt->execute();
-    }
-
-    /**
      * @param $email
      */
     public function logoutByEmail($email)

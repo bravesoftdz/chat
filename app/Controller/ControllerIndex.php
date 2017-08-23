@@ -37,7 +37,7 @@ class ControllerIndex extends AbstractController
 
     public function index()
     {
-        if (isset($_SESSION['id'])) {
+        if ($this->session->get('id')) {
             $this->usersList = $this->userModel->getAllWithoutMe();
             $this->request['count'] = $this->requestModel->getUserRequestCount();
         }
@@ -47,19 +47,6 @@ class ControllerIndex extends AbstractController
         $this->friendsList = $this->friendModel->getUserFriends();
         $this->view();
         return true;
-    }
-
-    /**
-     * Json request for friend
-     */
-    public function request()
-    {
-        $status = $this->userModel->sendRequest($this->post->get('id'));
-        if ($status) {
-            $pusher = new PushFactory(new PusherClass());
-            $pusher->send(['user' => ['id' => $this->post->get('id')]]);
-        }
-        echo json_encode(['success' => $status]);
     }
 
 }

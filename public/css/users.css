@@ -1,0 +1,20 @@
+i {
+    vertical-align: middle;
+}
+
+.table-users tbody tr:hover,
+.table-friends tbody tr:hover{
+    cursor: pointer;
+    background-color: #eee;
+}
+
+.block-friends > .panel-friend > .panel-body,
+.block-users > .panel-users > .panel-body{
+    height: 600px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.nav-user-photo {
+    vertical-align: middle;
+}

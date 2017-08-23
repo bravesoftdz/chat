@@ -1,0 +1,9 @@
+{
+    "require": {
+        "pusher/pusher-php-server": "^3.0",
+        "predis/predis": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {"Dykyi\\": "app/"}
+    }
+}

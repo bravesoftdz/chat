@@ -1,23 +1,22 @@
 $(function () {
 
-    $('.btn-send-user-request').click(function (e) {
+    $('.table-request .btn-decline-user').click(function (e) {
         var userId = $(this).data('user');
-        var btn = $(this);
         $.ajax({
-            url: "request/add",
+            url: "request/decline",
             cache: false,
             type: "POST",
             data: {id: userId},
             dataType: 'json',
             success: function (data) {
                 if (data.success) {
-                    $(btn).removeClass('btn-send-user-request');
-                    var span = $(btn).find('span');
-                    span.removeClass('glyphicon-plus');
-                    span.addClass('glyphicon glyphicon-ok');
+                    $('.request-id-' + userId).remove();
+                    var tmp =$('#request-list-count');
+                    tmp.text(parseInt(tmp.html()) - 1);
                 }
             }
         });
         e.preventDefault();
     });
+
 });

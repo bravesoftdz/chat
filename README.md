@@ -15,9 +15,9 @@
 + users list
 + friends list
 + friends request notification
++ request dialog
 
 ## Future
-+ request dialog
 + monitor last activity
 + monitor status change (pusher)
 + update mvc pattern

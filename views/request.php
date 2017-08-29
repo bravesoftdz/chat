@@ -3,15 +3,9 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- pusher -->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <!--  script  -->
@@ -42,12 +36,22 @@
                 <li><a href="/">Main</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-friend-list">
-                <li><a href="<?= $this->session->get('id') ? '/request' : '' ?>">Request <span id="request-count" class="badge"></span></a>
-                </li>
+                <li><a href="<?= $this->session->get('id') ? '/request' : '' ?>">Request <span id="request-count" class="badge"><?= $this->request['count'] > 0 ? $this->request['count'] : '' ?></span></a></li>
                 <? if (!empty($this->session->get('user'))) : ?>
-                    <li id="user_id" data-id="<?= $this->session->get('id') ?>"><a
-                                href=""><?= $this->session->get('user') ?></a></li>
-                    <li><a href="login/logout">Exit</a></li>
+                    <li id="user_id" data-id="<?= $this->session->get('id') ?>" data-status="<?= $this->user['status_id'] ?>" style="top: 15px;">
+                            <span class="dropdown-toggle" data-toggle="dropdown"><?= $this->session->get('user') ?>
+                                <span class="user-status-icon glyphicon glyphicon-ok-sign"></span>
+                            </span>
+                        <ul class="dropdown-menu" id="dropdown-status-menu">
+                            <li class="dropdown-header">Status</li>
+                            <li data-id="1"><a href="#"><span class="glyphicon glyphicon-ok-sign text-success"></span> Online</a></li>
+                            <li data-id="2"><a href="#"><span class="glyphicon glyphicon-ok-sign text-warning"></span> Went away</a></li>
+                            <li data-id="3"><a href="#"><span class="glyphicon glyphicon-ok-sign text-danger"></span> Do not disturb</a></li>
+                            <li class="divider"></li>
+                            <li><a href="login/logout">Exit</a></li>
+                        </ul>
+                    </li>
+
                 <? else: ?>
                     <li><a href="login">Login</a></li>
                 <? endif; ?>
@@ -110,7 +114,9 @@
     channel.bind('request-event', function (data) {
         if (data.user.id == $('#user_id').data('id')) {
             var tmp = $('#navbar-brand-centered span#request-count');
-            tmp.text(parseInt(tmp.html()) + 1);
+            var old_val = parseInt(tmp.html());
+            old_val = isNaN(old_val) ? 0 : old_val;
+            tmp.text(old_val + 1);
 
             // refresh page or add new position
         }

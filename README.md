@@ -16,11 +16,10 @@
 + friends list
 + friends request notification
 + request dialog
++ monitor last activity
 
 ## Future
-+ monitor last activity
 + monitor status change (pusher)
-+ update mvc pattern
 + use redis for send message
 + cache for message history
 

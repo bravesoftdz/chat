@@ -16,21 +16,20 @@ Message = function (arg) {
 };
 
 $(function () {
-    var getMessageText, message_side, sendMessage;
-    message_side = 'right';
+    var getMessageText, sendMessage, readMessage;
     getMessageText = function () {
         var $message_input;
         $message_input = $('.message_input');
         return $message_input.val();
     };
-    sendMessage = function (text) {
+    drawMessage = function (text, side) {
         var $messages, message;
         if (text.trim() === '') {
             return;
         }
         $('.message_input').val('');
         $messages = $('.messages');
-        message_side = message_side === 'left' ? 'right' : 'left';
+        message_side = side;
         message = new Message({
             text: text,
             message_side: message_side
@@ -38,22 +37,98 @@ $(function () {
         message.draw();
         return $messages.animate({scrollTop: $messages.prop('scrollHeight')}, 300);
     };
-    $('.send_message').click(function (e) {
-        return sendMessage(getMessageText());
-    });
+
+    sendMessage = function (text) {
+        drawMessage(text, 'right');
+    };
+
+    readMessage = function (text) {
+        drawMessage(text, 'left');
+    };
+
+    getMessageHistory = function(userId){
+        $.ajax({
+            url: "message/getMessageHistory",
+            cache: false,
+            type: "POST",
+            data: {id: userId},
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    data.messages.forEach(function(item, i, arr) {
+                        if (userId == item.sender_id){
+                            drawMessage(item.message, 'left');
+                        } else {
+                            drawMessage(item.message, 'right');
+                        }
+                    });
+                }
+            }
+        });
+    };
+
+    clickSendMessages = function(e){
+        var userId = $('.send_message').data('user');
+        var message = getMessageText();
+        if (message == ''){
+            return false;
+        }
+        $.ajax({
+            url: "message/send",
+            cache: false,
+            type: "POST",
+            data: {id: userId, message: message},
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    sendMessage(message);
+                }
+            }
+        });
+    };
+
+    readMessageTimer = function () {
+        $.ajax({
+            url: "message/read",
+            cache: false,
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    readMessage(data.messageText);
+                }
+            }
+        });
+    };
+
+    clickOpenMessageDialog = function (e) {
+        var user_id = $(this).data('user');
+        var user_name = $(this).data('name');
+        //
+        $(".chat_window ul.messages").empty();
+        getMessageHistory(user_id);
+        //
+        $('.chat_window').removeClass('hidden');
+        $(".send_message").data('user', user_id);
+        $(".top_menu .title").html('Chat with [ '+user_name+' ]');
+    };
+
+    /**
+     * Send messgae button
+     */
+    $('.send_message').click(clickSendMessages);
+
     $('.message_input').keyup(function (e) {
         if (e.which === 13) {
-            return sendMessage(getMessageText());
+            $('.send_message').click();
         }
     });
 
-    $('.btn-write-user-message').click(function (e) {
-        $('.chat_window').removeClass('hidden');
-    });
+    $('.btn-write-user-message').click(clickOpenMessageDialog);
 
     $('.chat_window .buttons > .close').click(function (e) {
         $('.chat_window').addClass('hidden');
     });
 
-    sendMessage('test');
+    setInterval(readMessageTimer, 1000);
 });

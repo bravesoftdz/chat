@@ -35,6 +35,7 @@ class ControllerLogin extends AbstractController
         if ($user) {
             $is_verify = $login->verifyUser($user);
             if ($is_verify) {
+                $this->users->updateActivity();
                 if ($this->post->get('remember')) {
                     $login->remember($user);
                 }

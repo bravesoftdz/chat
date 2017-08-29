@@ -45,4 +45,23 @@ final class FriendsModel extends Model
         return $stmt->fetchAll();
     }
 
+    /**
+     * @param $user_id
+     * @return mixed
+     */
+    public function removeFriendByUserId($user_id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM messages WHERE (sender_id = :user_id and recipient_id = :friend_id) OR (sender_id = :friend_id and recipient_id = :user_id)");
+        $stmt->bindParam(":user_id", $this->session->get('id'));
+        $stmt->bindParam(":friend_id", $user_id);
+        $result = $stmt->execute();
+        if ($result) {
+            $stmt = $this->db->prepare("DELETE FROM friends WHERE (user_id = :user_id and friend_id = :friend_id) OR (user_id = :friend_id and friend_id = :user_id)");
+            $stmt->bindParam(":user_id", $this->session->get('id'));
+            $stmt->bindParam(":friend_id", $user_id);
+            $result = $stmt->execute();
+        }
+        return $result;
+    }
+
 }

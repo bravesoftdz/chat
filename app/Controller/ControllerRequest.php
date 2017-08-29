@@ -6,12 +6,14 @@ use Dykyi\AbstractController;
 use Dykyi\Common\PusherClass;
 use Dykyi\Common\PushFactory;
 use Dykyi\Model\RequestModel;
+use Dykyi\Model\UsersModel;
 
 /**
  * Class ControllerRequest
  * @package Dykyi
  *
  * @property $requestModel requestModel;
+ * @property $userModel userModel;
  */
 class ControllerRequest extends AbstractController
 {
@@ -25,17 +27,20 @@ class ControllerRequest extends AbstractController
     {
         parent::__construct();
         $this->requestModel = new RequestModel();
+        $this->userModel = new UsersModel();
     }
 
     public function index()
     {
         $this->requestList = $this->requestModel->getUserRequest();
+        $this->user = $this->userModel->getUserInfo();
+        $this->requestModel->viewed();
         $this->view();
         return true;
     }
 
     /**
-     * Json request
+     * Json send request
      */
     public function add()
     {
@@ -47,12 +52,18 @@ class ControllerRequest extends AbstractController
         echo json_encode(['success' => $status]);
     }
 
-    public function accepted()
+    /**
+     * Json Accepted
+     */
+    public function accept()
     {
-        $status = $this->requestModel->accepted($this->post->get('id'));
+        $status = $this->requestModel->accept($this->post->get('id'));
         echo json_encode(['success' => $status]);
     }
 
+    /**
+     * Json Decline
+     */
     public function decline()
     {
         $status = $this->requestModel->decline($this->post->get('id'));

@@ -15,7 +15,7 @@ use Dykyi\Model\UsersModel;
  *
  * @property $userModel UsersModel;
  * @property $friendModel FriendsModel;
- * @property $requestModel requestModel;
+ * @property $requestModel RequestModel;
  */
 class ControllerIndex extends AbstractController
 {
@@ -26,6 +26,7 @@ class ControllerIndex extends AbstractController
     protected $usersList   = [];
     protected $friendsList = [];
     protected $request     = [];
+    protected $user        = [];
 
     public function __construct()
     {
@@ -40,6 +41,7 @@ class ControllerIndex extends AbstractController
         if ($this->session->get('id')) {
             $this->usersList = $this->userModel->getAllWithoutMe();
             $this->request['count'] = $this->requestModel->getUserRequestCount();
+            $this->user = $this->userModel->getUserInfo();
         }
         else {
             $this->usersList = $this->userModel->getAll();
@@ -47,6 +49,20 @@ class ControllerIndex extends AbstractController
         $this->friendsList = $this->friendModel->getUserFriends();
         $this->view();
         return true;
+    }
+
+    public function changeStatus()
+    {
+        $userStatus = $this->post->get('id');
+        $status = $this->userModel->changeUserStatus($userStatus);
+        echo json_encode(['success'  => $status]);
+    }
+
+    public function removeFriend()
+    {
+        $userID = $this->post->get('id');
+        $status = $this->friendModel->removeFriendByUserId($userID);
+        echo json_encode(['success'  => $status]);
     }
 
 }

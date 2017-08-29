@@ -18,8 +18,9 @@ CREATE TABLE IF NOT EXISTS `status` (
 -- Damp table data chat.status: ~2 rows (приблизительно)
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
 REPLACE INTO `status` (`id`, `name`) VALUES
-  (1, 'online'),
-  (2, 'offline');
+  (1, 'Online'),
+  (2, 'Went away'),
+  (3, 'Do not disturb');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 
 -- Damp table hillel.users
@@ -43,19 +44,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`id`, `email`, `name`, `password`, `status_id`, `online_state`, `last_active`, `created_at`, `updated_at`) VALUES
   (4, 'alarmdemo@ukr.net', 'roma', '$2y$10$Zy8pWdActDEKFzYYuV9P7.UvmxhkRYOfGLvGZpCXGfPgkDnJRHfiW', 2, 0, '2017-08-21 21:25:35', '2017-08-21 19:44:46', NULL),
-  (6, 'alarmdemo@ukr.net22', '----', '$2y$10$yZFKsQ8oZ/e5tvtbrJY9mu049cxTQU92ACQ1Wq32K074X/vse8gmu', 2, 0, '2017-08-21 19:44:15', '2017-08-21 19:44:46', NULL),
-  (7, 'alarmdemo@ukr.net33', '----', '$2y$10$rhOt2FQvSS5MbusDA7J9ne804Pu0zIM0E//OAhMvO3ToLHgkT4smy', 2, 0, '2017-08-21 19:44:15', '2017-08-21 19:44:46', NULL),
-  (8, 'alarmdemo@ukr.net111', 'anzhela', '$2y$10$rhOt2FQvSS5MbusDA7J9ne804Pu0zIM0E//OAhMvO3ToLHgkT4smy', 2, 0, '2017-08-21 19:44:15', '2017-08-21 19:44:46', NULL);
+  (6, 'alarmdemo@ukr.net2', 'igor', '$2y$10$yZFKsQ8oZ/e5tvtbrJY9mu049cxTQU92ACQ1Wq32K074X/vse8gmu', 2, 0, '2017-08-21 19:44:15', '2017-08-21 19:44:46', NULL),
+  (7, 'alarmdemo@ukr.net3', 'vitja', '$2y$10$rhOt2FQvSS5MbusDA7J9ne804Pu0zIM0E//OAhMvO3ToLHgkT4smy', 2, 0, '2017-08-21 19:44:15', '2017-08-21 19:44:46', NULL),
+  (8, 'alarmdemo@ukr.net4', 'anzhela', '$2y$10$rhOt2FQvSS5MbusDA7J9ne804Pu0zIM0E//OAhMvO3ToLHgkT4smy', 2, 0, '2017-08-21 19:44:15', '2017-08-21 19:44:46', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
 -- damp table chat.messages
 CREATE TABLE IF NOT EXISTS `messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `message` text NOT NULL,
-  `read_status` int(1) DEFAULT '0',
+  `is_read` int(1) DEFAULT '0',
   `sender_id` int(11) NOT NULL,
   `recipient_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -80,12 +79,6 @@ CREATE TABLE IF NOT EXISTS `request` (
   CONSTRAINT `FK_messages_request_2` FOREIGN KEY (`recipient_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Damp table data chat.request: ~1 rows
-/*!40000 ALTER TABLE `request` DISABLE KEYS */;
-REPLACE INTO `request` (`id`, `accepted`, `sender_id`, `recipient_id`, `created_at`) VALUES
-  (1, 0, 4, 8, '2017-08-21 21:25:35');
-/*!40000 ALTER TABLE `request` ENABLE KEYS */;
-
 -- Damp table chat.messages
 CREATE TABLE IF NOT EXISTS `friends` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -98,13 +91,6 @@ CREATE TABLE IF NOT EXISTS `friends` (
   CONSTRAINT `FK_messages_friends` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_messages_friends_2` FOREIGN KEY (`friend_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Damp table data chat.friends: ~1 rows
-/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
-REPLACE INTO `friends` (`id`, `user_id`, `friend_id`, `created_at`) VALUES
-  (1, 8, 4, '2017-08-21 21:25:35');
-/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
-
 
 -- Create Indexs
 CREATE INDEX idx_users_name ON users (name);

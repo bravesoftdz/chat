@@ -4,6 +4,7 @@
 
 ## Installation
 + run the script ```"db.sql"``` in the folder migration
++ run command ``` composer install```
 + run command ``` composer dumpautoload -o```
   
 ## Usage package

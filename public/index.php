@@ -2,10 +2,7 @@
 
 namespace Dykyi;
 
-$pos              = strripos($_SERVER['DOCUMENT_ROOT'], '/');
-$documentRootPath = mb_strcut($_SERVER['DOCUMENT_ROOT'], 0, $pos);
-//$documentRootPath = $_SERVER['DOCUMENT_ROOT'];
-define('ROOT_DIR', $documentRootPath);
+define('ROOT_DIR', $_SERVER['DOCUMENT_ROOT']);
 
 $_ENV = 'dev';
 

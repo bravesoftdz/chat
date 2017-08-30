@@ -9,13 +9,13 @@
     <!-- pusher -->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <!--  script  -->
-    <script src="js/index.js"></script>
-    <script src="js/users.js"></script>
-    <script src="js/chat.js"></script>
+    <script src="public/js/index.js"></script>
+    <script src="public/js/users.js"></script>
+    <script src="public/js/chat.js"></script>
     <!-- css -->
-    <link href="css/index.css" rel="stylesheet" media="all">
-    <link href="css/users.css" rel="stylesheet" media="all">
-    <link href="css/chat.css" rel="stylesheet" media="all">
+    <link href="public/css/index.css" rel="stylesheet" media="all">
+    <link href="public/css/users.css" rel="stylesheet" media="all">
+    <link href="public/css/chat.css" rel="stylesheet" media="all">
 </head>
 
 <body>
@@ -39,8 +39,9 @@
                 <li><a href="/">Main</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-friend-list">
-                <li><a href="<?= $this->session->get('id') ? '/request' : '' ?>">Request <span id="request-count" class="badge"><?= $this->requestCount > 0 ? $this->requestCount : '' ?></span></a></li>
-                <? if (!empty($this->session->get('user'))) : ?>
+                <? if (!empty($this->session->get('id'))) : ?>
+                <li><a href="/request">Request <span id="request-count" class="badge"><?= $this->requestCount > 0 ? $this->requestCount : '' ?></span></a></li>
+
                     <li id="user_id" data-id="<?= $this->session->get('id') ?>" data-status="<?= $this->user['status_id'] ?>" style="top: 15px;">
                             <span class="dropdown-toggle" data-toggle="dropdown"><?= $this->session->get('user') ?>
                                 <span class="user-status-icon glyphicon glyphicon-ok-sign"></span>

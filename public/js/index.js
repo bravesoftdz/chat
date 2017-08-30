@@ -35,7 +35,6 @@ clickChangeStatus = function (e) {
             }
         }
     });
-    e.preventDefault();
 };
 
 clickDialogUserRemove = function () {

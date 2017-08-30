@@ -12,16 +12,13 @@ use Dykyi\Model\UsersModel;
  * Class ControllerRequest
  * @package Dykyi
  *
- * @property $requestModel requestModel;
- * @property $userModel userModel;
+ * @property requestModel $requestModel
+ * @property UsersModel $userModel
  */
 class ControllerRequest extends AbstractController
 {
     protected $friendModel;
     protected $requestModel;
-
-    protected $requestList = [];
-    protected $request     = [];
 
     public function __construct()
     {
@@ -32,11 +29,11 @@ class ControllerRequest extends AbstractController
 
     public function index()
     {
-        $this->requestList = $this->requestModel->getUserRequest();
-        $this->user = $this->userModel->getUserInfo();
         $this->requestModel->viewed();
-        $this->view();
-        return true;
+        return $this->view('index', [
+            'user'        => $this->userModel->getUserInfo(),
+            'requestList' => $this->requestModel->getUserRequest(),
+        ]);
     }
 
     /**
@@ -49,7 +46,7 @@ class ControllerRequest extends AbstractController
             $pusher = new PushFactory(new PusherClass());
             $pusher->send(['user' => ['id' => $this->post->get('id')]], 'request-send-event');
         }
-        echo json_encode(['success' => $status]);
+        return $this->json(['success' => $status]);
     }
 
     /**
@@ -58,7 +55,7 @@ class ControllerRequest extends AbstractController
     public function accept()
     {
         $status = $this->requestModel->accept($this->post->get('id'));
-        echo json_encode(['success' => $status]);
+        return $this->json(['success' => $status]);
     }
 
     /**
@@ -71,7 +68,7 @@ class ControllerRequest extends AbstractController
             $pusher = new PushFactory(new PusherClass());
             $pusher->send(['user' => ['id' => $this->post->get('id')], 'decline_id' => $this->session->get('id')], 'request-decline-event');
         }
-        echo json_encode(['success' => $status]);
+        return $this->json(['success' => $status]);
     }
 
 }

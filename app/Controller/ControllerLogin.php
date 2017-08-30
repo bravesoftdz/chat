@@ -9,9 +9,10 @@ use Dykyi\Model\UsersModel;
 
 /**
  * Class ControllerLogin
+ *
  * @package Dykyi
  *
- * @property UsersModel;
+ * @property UsersModel $users;
  */
 class ControllerLogin extends AbstractController
 {
@@ -73,7 +74,7 @@ class ControllerLogin extends AbstractController
 
     public function index()
     {
-        $this->view();
+        $this->view('index');
 
         if (empty($this->post->get())) {
             return false;

@@ -9,7 +9,7 @@ use Dykyi\Model\MessageModel;
  * Class ControllerMessages
  * @package Dykyi
  *
- * @property $messageModel MessageModel;
+ * @property MessageModel $messageModel
  */
 class ControllerMessage extends AbstractController
 {
@@ -31,19 +31,19 @@ class ControllerMessage extends AbstractController
         $recipient_id = $this->post->get('id');
         $message      = $this->post->get('message');
         $status       = $this->messageModel->sendMessage($recipient_id, $message);
-        echo json_encode(['success' => $status]);
+        return $this->json(['success' => $status]);
     }
 
     public function read()
     {
         $messageText = $this->messageModel->readMessage();
-        echo json_encode(['success'     => $messageText !== false, 'messageText' => $messageText]);
+        return $this->json(['success'     => $messageText !== false, 'messageText' => $messageText]);
     }
 
     public function getMessageHistory()
     {
         $recipient_id = $this->post->get('id');
         $messages     = $this->messageModel->getMessageHistory($recipient_id);
-        echo json_encode(['success'  => $messages !== false, 'messages' => $messages]);
+        return $this->json(['success'  => $messages !== false, 'messages' => $messages]);
     }
 }

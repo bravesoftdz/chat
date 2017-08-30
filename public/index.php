@@ -10,6 +10,24 @@ define('ROOT_DIR', $documentRootPath);
 $_ENV = 'dev';
 
 require_once '../vendor/autoload.php';
+//
+require_once '../app/Common/PostData.php';
+require_once '../app/Common/Session.php';
+require_once '../app/Common/Config.php';
+require_once '../app/Common/Database.php';
+require_once '../app/Controller.php';
+require_once '../app/Controller/ControllerLogin.php';
+require_once '../app/Controller/ControllerIndex.php';
+require_once '../app/Controller/ControllerMessage.php';
+require_once '../app/Controller/ControllerRequest.php';
+require_once '../app/Model.php';
+require_once '../app/Model/UsersModel.php';
+require_once '../app/Model/MessageModel.php';
+require_once '../app/Model/FriendsModel.php';
+require_once '../app/Model/RequestModel.php';
+require_once '../app/Common/User.php';
+require_once '../app/Common/Login.php';
+require_once '../app/Common/SignUp.php';
 
 session_start();
 

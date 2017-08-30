@@ -30,9 +30,10 @@ interface IController
      * Render View Page
      *
      * @param $view
+     * @param array $params
      * @return mixed
      */
-    public function view($view);
+    public function view($view, array $params);
 
 }
 
@@ -73,12 +74,28 @@ abstract class AbstractController implements IController
 
     /**
      * @param string $view
+     * @param array $params
      * @return mixed
      */
-    public function view($view = '')
+    public function view($view = '', array $params = [])
     {
+        foreach ($params as $var => $value) {
+            $this->$var = $value;
+        }
         $view = empty($this->route) ? $view : $this->route;
         return require_once(ROOT_DIR.'/views/' . $view . '.php');
+    }
+
+    /**
+     * Respons to ajax
+     *
+     * @param $data
+     * @return bool
+     */
+    public function json($data)
+    {
+        echo json_encode($data);
+        return true;
     }
 
     /**

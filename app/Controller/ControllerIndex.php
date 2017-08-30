@@ -13,9 +13,9 @@ use Dykyi\Model\UsersModel;
  * Class ControllerLogin
  * @package Dykyi
  *
- * @property $userModel UsersModel;
- * @property $friendModel FriendsModel;
- * @property $requestModel RequestModel;
+ * @property UsersModel $userModel
+ * @property FriendsModel $friendModel
+ * @property RequestModel $requestModel
  */
 class ControllerIndex extends AbstractController
 {
@@ -23,9 +23,6 @@ class ControllerIndex extends AbstractController
     protected $friendModel;
     protected $requestModel;
 
-    protected $usersList   = [];
-    protected $friendsList = [];
-    protected $request     = [];
     protected $user        = [];
 
     public function __construct()
@@ -39,30 +36,32 @@ class ControllerIndex extends AbstractController
     public function index()
     {
         if ($this->session->get('id')) {
-            $this->usersList = $this->userModel->getAllWithoutMe();
-            $this->request['count'] = $this->requestModel->getUserRequestCount();
-            $this->user = $this->userModel->getUserInfo();
+            $usersList = $this->userModel->getAllWithoutMe();
         }
         else {
-            $this->usersList = $this->userModel->getAll();
+            $usersList = $this->userModel->getAll();
         }
-        $this->friendsList = $this->friendModel->getUserFriends();
-        $this->view();
-        return true;
+
+        return $this->view('index', [
+            'requestCount' => $this->requestModel->getUserRequestCount(),
+            'user'         => $this->userModel->getUserInfo(),
+            'usersList'    => $usersList,
+            'friendsList'  => $this->friendModel->getUserFriends(),
+        ]);
     }
 
     public function changeStatus()
     {
         $userStatus = $this->post->get('id');
         $status = $this->userModel->changeUserStatus($userStatus);
-        echo json_encode(['success'  => $status]);
+        return $this->json(['success'  => $status]);
     }
 
     public function removeFriend()
     {
         $userID = $this->post->get('id');
         $status = $this->friendModel->removeFriendByUserId($userID);
-        echo json_encode(['success'  => $status]);
+        return $this->json(['success'  => $status]);
     }
 
 }

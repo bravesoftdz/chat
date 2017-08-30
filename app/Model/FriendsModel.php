@@ -7,6 +7,8 @@ use PDOException;
 
 /**
  * Class Database
+ *
+ * @property $db Database
  */
 final class FriendsModel extends Model
 {

@@ -4,8 +4,7 @@
 
 ## Installation
 + run the script ```"db.sql"``` in the folder migration
-+ run command ``` composer install```
-+ run command ``` composer dumpautoload -o```
++ run command ``` composer install --optimize-autoloader```
   
 ## Usage package
 + pusher-php-server

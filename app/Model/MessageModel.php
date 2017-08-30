@@ -65,7 +65,7 @@ class MessageModel extends Model
      */
     public function getMessageHistory($user_id)
     {
-        $stmt = $this->db->prepare('SELECT * FROM messages WHERE ((recipient_id = :user_1 AND sender_id = :user_2) OR (recipient_id = :user_2 AND sender_id = :user_1)) AND is_read = 1 ORDER BY created_at ASC');
+        $stmt = $this->db->prepare('SELECT * FROM messages WHERE ((recipient_id = :user_1 AND sender_id = :user_2) OR (recipient_id = :user_2 AND sender_id = :user_1)) ORDER BY created_at ASC');
         $stmt->bindParam(":user_1", $user_id);
         $stmt->bindParam(":user_2", $this->session->get('id'));
         $stmt->execute();

@@ -111,7 +111,7 @@
     Pusher.logToConsole = true;
     var pusher = new Pusher('ecde41c460ac287cc3bc', {encrypted: true});
     var channel = pusher.subscribe('chat-channel');
-    channel.bind('request-event', function (data) {
+    channel.bind('request-send-event', function (data) {
         if (data.user.id == $('#user_id').data('id')) {
             var tmp = $('#navbar-brand-centered span#request-count');
             var old_val = parseInt(tmp.html());

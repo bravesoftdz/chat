@@ -10,7 +10,7 @@ use Pusher\Pusher;
  */
 interface PushInterface
 {
-    public function send($data);
+    public function send($data, $event, $chanel);
 }
 
 /**
@@ -27,9 +27,9 @@ class PusherClass implements PushInterface
         $this->push = new Pusher($config['auth_key'], $config['secret'], $config['app_id'], $config['options']);
     }
 
-    public function send($data)
+    public function send($data, $event, $chanel)
     {
-        $this->push->trigger('chat-channel', 'request-event', $data);
+        $this->push->trigger($chanel, $event, $data);
     }
 }
 
@@ -46,9 +46,9 @@ class PushFactory
         $this->_push = $push;
     }
 
-    public function send($data)
+    public function send($data, $event, $chanel = 'chat-channel')
     {
-        $this->_push->send($data);
+        $this->_push->send($data, $event, $chanel);
     }
 
 }

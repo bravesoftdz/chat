@@ -88,7 +88,7 @@
                                         <?php if ($this->session->get('user')) { ?>
                                             <small class="text-muted">
                                                 <?php if (is_null($user['accepted'])): ?>
-                                                <button type="button" class="btn btn-default btn-send-user-request"  data-user="<?= $user['id'] ?>">
+                                                <button type="button" class="btn btn-default btn-send-user-request user-id-<?= $user['id'] ?>"  data-user="<?= $user['id'] ?>">
                                                     <span class="glyphicon glyphicon-plus"></span></button>
                                                 <? else: ?>
                                                     <button type="button" class="btn btn-default btn-send-user-request">
@@ -154,7 +154,7 @@
     </div>
 </div>
 
-
+<!-- Chat -->
 <div class="chat_window hidden">
     <div class="top_menu">
         <div class="buttons">
@@ -180,6 +180,7 @@
         <div class="avatar"></div>
         <div class="text_wrapper">
             <div class="text"></div>
+            <small class="text-data-send pull-right"></small>
         </div>
     </li>
 </div>
@@ -213,7 +214,7 @@
     Pusher.logToConsole = true;
     var pusher = new Pusher('ecde41c460ac287cc3bc', {encrypted: true});
     var channel = pusher.subscribe('chat-channel');
-    channel.bind('request-event', function (data) {
+    channel.bind('request-send-event', function (data) {
         if (data.user.id == $('#user_id').data('id')) {
             var tmp = $('#navbar-brand-centered span#request-count');
             var old_val = parseInt(tmp.html());
@@ -221,6 +222,15 @@
             tmp.text(old_val + 1);
         }
     });
+
+    channel.bind('request-decline-event', function (data) {
+        if (data.user.id == $('#user_id').data('id')) {
+            var obj = $('.panel-users .table-users .user-id-'+data.decline_id).find('span');
+            obj.removeClass('glyphicon-ok');
+            obj.addClass('glyphicon-plus');
+        }
+    });
+
 </script>
 
 </html>

@@ -47,7 +47,7 @@ class ControllerRequest extends AbstractController
         $status = $this->requestModel->sendRequest($this->post->get('id'));
         if ($status) {
             $pusher = new PushFactory(new PusherClass());
-            $pusher->send(['user' => ['id' => $this->post->get('id')]]);
+            $pusher->send(['user' => ['id' => $this->post->get('id')]], 'request-send-event');
         }
         echo json_encode(['success' => $status]);
     }
@@ -67,6 +67,10 @@ class ControllerRequest extends AbstractController
     public function decline()
     {
         $status = $this->requestModel->decline($this->post->get('id'));
+        if ($status) {
+            $pusher = new PushFactory(new PusherClass());
+            $pusher->send(['user' => ['id' => $this->post->get('id')], 'decline_id' => $this->session->get('id')], 'request-decline-event');
+        }
         echo json_encode(['success' => $status]);
     }
 

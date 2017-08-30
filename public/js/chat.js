@@ -5,7 +5,9 @@ Message = function (arg) {
         return function () {
             var $message;
             $message = $($('.message_template').clone().html());
-            $message.addClass(_this.message_side).find('.text').html(_this.text);
+            $message.addClass(_this.message_side);
+            $message.find('.text').html(_this.text);
+            $message.find('.text-data-send').html(arg.date);
             $('.messages').append($message);
             return setTimeout(function () {
                 return $message.addClass('appeared');
@@ -22,7 +24,7 @@ $(function () {
         $message_input = $('.message_input');
         return $message_input.val();
     };
-    drawMessage = function (text, side) {
+    drawMessage = function (text, date, side) {
         var $messages, message;
         if (text.trim() === '') {
             return;
@@ -32,18 +34,19 @@ $(function () {
         message_side = side;
         message = new Message({
             text: text,
+            date: date,
             message_side: message_side
         });
         message.draw();
         return $messages.animate({scrollTop: $messages.prop('scrollHeight')}, 300);
     };
 
-    sendMessage = function (text) {
-        drawMessage(text, 'right');
+    sendMessage = function (text, date) {
+        drawMessage(text, date, 'right');
     };
 
-    readMessage = function (text) {
-        drawMessage(text, 'left');
+    readMessage = function (text, date) {
+        drawMessage(text, date, 'left');
     };
 
     getMessageHistory = function(userId){
@@ -57,9 +60,9 @@ $(function () {
                 if (data.success) {
                     data.messages.forEach(function(item, i, arr) {
                         if (userId == item.sender_id){
-                            drawMessage(item.message, 'left');
+                            drawMessage(item.message, item.created_at, 'left');
                         } else {
-                            drawMessage(item.message, 'right');
+                            drawMessage(item.message, item.created_at, 'right');
                         }
                     });
                 }
@@ -81,7 +84,7 @@ $(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.success) {
-                    sendMessage(message);
+                    sendMessage(message, (new Date).toTimeString().slice(0,8));
                 }
             }
         });
@@ -95,7 +98,7 @@ $(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.success) {
-                    readMessage(data.messageText);
+                    readMessage(data.messageText, (new Date).toTimeString().slice(0,8));
                 }
             }
         });

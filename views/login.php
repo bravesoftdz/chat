@@ -6,9 +6,9 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"  crossorigin="anonymous"></script>
-    <script src="<?php ROOT_DIR ?>/js/login.js"></script>
+    <script src="/public/js/login.js"></script>
 
-    <link href="<?php ROOT_DIR ?>/css/login.css" rel="stylesheet" media="all">
+    <link href="/public/css/login.css" rel="stylesheet" media="all">
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>

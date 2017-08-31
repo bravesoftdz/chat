@@ -41,12 +41,12 @@ class ControllerLogin extends AbstractController
                     $login->remember($user);
                 }
                 $this->message = 'Welcome, ' . $user->getUserEmail();
-                $this->render();
+                return $this->render();
             }
             else
                 $this->message = $login->getError();
         }
-        return $this->render();
+        return $this->render('login', ['message' => 'User not found']);
     }
 
     /**
@@ -64,7 +64,7 @@ class ControllerLogin extends AbstractController
             $this->message = $signUp->getError();
         }
 
-        return $this->render('login');
+        return $this->render('login', ['message' => $this->message]);
     }
 
     public function getMessage()
@@ -74,7 +74,7 @@ class ControllerLogin extends AbstractController
 
     public function index()
     {
-        $this->view('index');
+        $this->view('index', ['errorMessage' => $this->getGlobalMessage()]);
 
         if (empty($this->post->get())) {
             return false;

@@ -3,13 +3,13 @@
 namespace Dykyi\Common;
 
 /**
- * Interface IPostData
+ * Interface IGetData
  * @package Dykyi\Common
  */
-interface IPostData
+interface IGetData
 {
     /**
-     * Get post value
+     * Get get value
      *
      * @param $key
      * @return mixed
@@ -18,16 +18,16 @@ interface IPostData
 }
 
 /**
- * Class PostData
+ * Class GetData
  * @package Dykyi\Common
  */
-class PostData implements IPostData
+class GetData implements IGetData
 {
     private $data = [];
 
     public function __construct()
     {
-        $this->data = $_POST;
+        $this->data = $_GET;
     }
 
     public function get($key = '')

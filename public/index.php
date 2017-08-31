@@ -2,10 +2,11 @@
 
 namespace Dykyi;
 
-define('ROOT_DIR', $_SERVER['DOCUMENT_ROOT']);
+$pos              = strripos($_SERVER['DOCUMENT_ROOT'], '/');
+$documentRootPath = mb_strcut($_SERVER['DOCUMENT_ROOT'], 0, $pos);
+define('ROOT_DIR', $documentRootPath);
 
 $_ENV = 'dev';
-
 require_once '../vendor/autoload.php';
 
 session_start();
@@ -14,7 +15,6 @@ function getUrlParam($param)
 {
     return empty($param) ? null : $param;
 }
-
 $uri = substr($_SERVER['REQUEST_URI'], 1);
 $pos = strpos($uri, "?");
 if ($pos > 0) {

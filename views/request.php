@@ -9,10 +9,10 @@
     <!-- pusher -->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <!--  script  -->
-    <script src="public/js/index.js"></script>
-    <script src="public/js/request.js"></script>
+    <script src="<?php ROOT_DIR ?>/js/index.js"></script>
+    <script src="<?php ROOT_DIR ?>/js/request.js"></script>
     <!-- css -->
-    <link href="public/css/index.css" rel="stylesheet" media="all">
+    <link href="<?php ROOT_DIR ?>/css/index.css" rel="stylesheet" media="all">
 </head>
 
 <body>

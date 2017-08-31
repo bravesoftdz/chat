@@ -25,6 +25,14 @@ interface ISession
      */
     public function set($key, $value);
 
+    /**
+     * Remove key from session
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function remove($key);
+
 }
 
 /**
@@ -33,7 +41,6 @@ interface ISession
  */
 class Session implements ISession
 {
-
     public function get($key)
     {
         return empty($_SESSION[$key]) ? '' : $_SESSION[$key];
@@ -43,6 +50,12 @@ class Session implements ISession
     {
         $_SESSION[$key] = $value;
         return $_SESSION[$key];
+    }
+
+    public function remove($key)
+    {
+        unset($_SESSION[$key]);
+        return true;
     }
 
 }

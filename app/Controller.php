@@ -22,9 +22,10 @@ interface IController
      * Render To Action
      *
      * @param $route
+     * @param $params
      * @return mixed
      */
-    public function render($route);
+    public function render($route, array $params);
 
     /**
      * Render View Page
@@ -100,12 +101,28 @@ abstract class AbstractController implements IController
 
     /**
      * @param $route
+     * @param $params
      * @return bool
      */
-    public function render($route = '/')
+    public function render($route = '', array $params = [])
     {
-        header('Location: ' . $route);
+        foreach ($params as $key => $value) {
+            $this->session->set($key, $value);
+        }
+
+        header('Location: /' . $route);
         return true;
+    }
+
+
+    /**
+     * @return mixed|string
+     */
+    public function getGlobalMessage()
+    {
+        $message = $this->session->get('message');
+        $this->session->remove('message');
+        return $message;
     }
 
 }

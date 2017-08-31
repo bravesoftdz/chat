@@ -1,11 +1,9 @@
 <form id="register-form" method="post" role="form" action="login/signup" style="display: none;">
     <div class="form-group">
-        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Name"
-               value="<?= $_POST['username'] ?>">
+        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Name" value="">
     </div>
     <div class="form-group">
-        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email"
-               value="<?= $_POST['email'] ?>">
+        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="">
     </div>
     <div class="form-group">
         <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">

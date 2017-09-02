@@ -9,13 +9,13 @@
     <!-- pusher -->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <!--  script  -->
-    <script src="/public/js/index.js"></script>
-    <script src="/public/js/users.js"></script>
-    <script src="/public/js/chat.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/users.js"></script>
+    <script src="/js/chat.js"></script>
     <!-- css -->
-    <link href="/public/css/index.css" rel="stylesheet" media="all">
-    <link href="/public/css/users.css" rel="stylesheet" media="all">
-    <link href="/public/css/chat.css" rel="stylesheet" media="all">
+    <link href="/css/index.css" rel="stylesheet" media="all">
+    <link href="/css/users.css" rel="stylesheet" media="all">
+    <link href="/css/chat.css" rel="stylesheet" media="all">
 </head>
 
 <body>

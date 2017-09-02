@@ -2,7 +2,9 @@
 
 namespace Dykyi;
 
-define('ROOT_DIR', $_SERVER['DOCUMENT_ROOT']);
+$pos              = strripos($_SERVER['DOCUMENT_ROOT'], '/');
+$documentRootPath = mb_strcut($_SERVER['DOCUMENT_ROOT'], 0, $pos);
+define('ROOT_DIR', $documentRootPath);
 
 $_ENV = 'dev';
 require_once '../vendor/autoload.php';

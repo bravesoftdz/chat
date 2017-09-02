@@ -9,10 +9,10 @@
     <!-- pusher -->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <!--  script  -->
-    <script src="/public/js/index.js"></script>
-    <script src="/public/js/request.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/request.js"></script>
     <!-- css -->
-    <link href="/public/css/index.css" rel="stylesheet" media="all">
+    <link href="/css/index.css" rel="stylesheet" media="all">
 </head>
 
 <body>

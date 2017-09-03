@@ -6,12 +6,12 @@ use Dykyi\AbstractController;
 use Dykyi\Model\MessageModel;
 
 /**
- * Class ControllerMessages
+ * Class MessageController
  * @package Dykyi
  *
  * @property MessageModel $messageModel
  */
-class ControllerMessage extends AbstractController
+class MessageController extends AbstractController
 {
     protected $messageModel;
 

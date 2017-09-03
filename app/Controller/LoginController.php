@@ -8,16 +8,14 @@ use Dykyi\AbstractController;
 use Dykyi\Model\UsersModel;
 
 /**
- * Class ControllerLogin
+ * Class LoginController
  *
  * @package Dykyi
  *
  * @property UsersModel $users;
  */
-class ControllerLogin extends AbstractController
+class LoginController extends AbstractController
 {
-    private $message = '';
-
     protected $users;
 
     public function __construct()
@@ -74,7 +72,8 @@ class ControllerLogin extends AbstractController
 
     public function index()
     {
-        $this->view('index', ['errorMessage' => $this->getGlobalMessage()]);
+        $this->setLayout('guest');
+        $this->view('', ['message' => $this->getGlobalMessage()]);
 
         if (empty($this->post->get())) {
             return false;

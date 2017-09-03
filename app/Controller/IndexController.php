@@ -10,14 +10,14 @@ use Dykyi\Model\RequestModel;
 use Dykyi\Model\UsersModel;
 
 /**
- * Class ControllerLogin
+ * Class IndexController
  * @package Dykyi
  *
  * @property UsersModel $userModel
  * @property FriendsModel $friendModel
  * @property RequestModel $requestModel
  */
-class ControllerIndex extends AbstractController
+class IndexController extends AbstractController
 {
     protected $userModel;
     protected $friendModel;
@@ -42,7 +42,7 @@ class ControllerIndex extends AbstractController
             $usersList = $this->userModel->getAll();
         }
 
-        return $this->view('index', [
+        return $this->view('', [
             'requestCount' => $this->requestModel->getUserRequestCount(),
             'user'         => $this->userModel->getUserInfo(),
             'usersList'    => $usersList,

@@ -9,13 +9,13 @@ use Dykyi\Model\RequestModel;
 use Dykyi\Model\UsersModel;
 
 /**
- * Class ControllerRequest
+ * Class RequestController
  * @package Dykyi
  *
  * @property requestModel $requestModel
  * @property UsersModel $userModel
  */
-class ControllerRequest extends AbstractController
+class RequestController extends AbstractController
 {
     protected $friendModel;
     protected $requestModel;
@@ -30,7 +30,7 @@ class ControllerRequest extends AbstractController
     public function index()
     {
         $this->requestModel->viewed();
-        return $this->view('index', [
+        return $this->view('', [
             'user'        => $this->userModel->getUserInfo(),
             'requestList' => $this->requestModel->getUserRequest(),
         ]);

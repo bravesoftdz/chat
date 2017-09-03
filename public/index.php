@@ -29,7 +29,7 @@ for ($i = 2; $i < count($uri); $i++) {
     $arguments[$i] = getUrlParam($uri[$i]);
 }
 
-$className = __NAMESPACE__ . "\\Controller\\Controller" . ucfirst($route);
+$className = __NAMESPACE__ . "\\Controller\\" . ucfirst($route) . 'Controller';
 $class     = new $className();
 $class->setAction($action);
 $class->setRoute($route);

@@ -1,5 +1,7 @@
 # Chat
 
+implemented on the kernel: [MVC](https://github.com/dykyi-roman/mvc/blob/master/README.md)
+
 ![image](https://github.com/dykyi-roman/chat/blob/master/tests/screen.png)
 
 ## Installation

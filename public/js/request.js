@@ -9,8 +9,7 @@ clickDecline = function (e) {
         success: function (data) {
             if (data.success) {
                 $('.request-id-' + userId).remove();
-                var tmp = $('#request-list-count');
-                tmp.text(parseInt(tmp.html()) - 1);
+                chat.decCounter($('#request-list-count'));
             }
         }
     });
@@ -29,8 +28,7 @@ clickAddFriend = function (e) {
         success: function (data) {
             if (data.success) {
                 $('.request-id-' + user.sender_id).remove();
-                var tmp = $('#request-list-count');
-                tmp.text(parseInt(tmp.html()) - 1);
+                chat.decCounter($('#request-list-count'));
             }
         }
     });

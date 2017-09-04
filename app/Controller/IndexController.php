@@ -65,7 +65,7 @@ class IndexController extends AbstractController
             $pusher->send(['user' => [
                 'id' => $this->session->get('id'),
                 'name' => $this->session->get('name'),
-            ]], 'request-friend-remove');
+            ]], 'friend-remove-event');
         }
         return $this->json(['success' => $status]);
     }

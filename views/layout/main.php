@@ -9,6 +9,7 @@
     <!-- pusher -->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <!--  script  -->
+    <script src="/js/main.js"></script>
     <script src="/js/index.js"></script>
     <script src="/js/users.js"></script>
     <script src="/js/request.js"></script>

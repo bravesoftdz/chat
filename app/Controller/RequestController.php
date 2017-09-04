@@ -60,7 +60,7 @@ class RequestController extends AbstractController
             $pusher->send(['user' => [
                 'id'   => $this->session->get('id'),
                 'name' => $this->session->get('name')
-            ], 'decline_id' => $this->session->get('id')], 'request-friend-accept');
+            ], 'decline_id' => $this->session->get('id')], 'friend-accept-event');
         }
         return $this->json(['success' => $status]);
     }

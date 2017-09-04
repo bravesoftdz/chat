@@ -15,6 +15,7 @@
     Pusher.logToConsole = true;
     var pusher = new Pusher('ecde41c460ac287cc3bc', {encrypted: true});
     var channel = pusher.subscribe('chat-channel');
+
     channel.bind('request-send-event', function (data) {
         if (data.user.id == $('#user_id').data('id')) {
             var tmp = $('#navbar-brand-centered span#request-count');
@@ -32,32 +33,20 @@
         }
     });
 
-    channel.bind('request-friend-remove', function (data) {
+    channel.bind('friend-remove-event', function (data) {
         if (data.user.id != $('#user_id').data('id')) {
-            $('.chat_window').addClass('hidden');
-            $('.panel-friend .table-friends .user-id-' + data.user.id).remove();
-            var new_user = renderTemplate('new-user-item', {id: data.user.id, name: data.user.name});
-            $('.panel-users .table-users tbody').append(new_user);
-
-            var friend_count = $('#friend-list-count');
-            friend_count.html(parseInt(friend_count.html()) - 1);
-
-            var user_count = $('#users-list-count');
-            user_count.html(parseInt(user_count.html()) + 1);
+            chat.messageDialog.close();
+            chat.moveFriendToUserList(user);
+            chat.decCounter($('#friend-list-count'));
+            chat.incCounter($('#users-list-count'));
         }
     });
 
-    channel.bind('request-friend-accept', function (data) {
+    channel.bind('friend-accept-event', function (data) {
         if (data.user.id != $('#user_id').data('id')) {
-            $('.panel-users .table-users tr.user-id-' + data.user.id).remove();
-            var new_user = renderTemplate('new-friend-item', {id: data.user.id, name: data.user.name, data: (new Date).toTimeString().slice(0,8)});
-            $('.panel-friend .table-friends tbody').append(new_user);
-
-            var friend_count = $('#friend-list-count');
-            friend_count.html(parseInt(friend_count.html()) + 1);
-
-            var user_count = $('#users-list-count');
-            user_count.html(parseInt(user_count.html()) - 1);
+            chat.moveUserToFriendList(data.user);
+            chat.incCounter($('#friend-list-count'));
+            chat.decCounter($('#users-list-count'));
         }
     });
 

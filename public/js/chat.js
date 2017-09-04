@@ -108,10 +108,10 @@ $(function () {
         var user_id = $(this).data('user');
         var user_name = $(this).data('name');
         //
-        $(".chat_window ul.messages").empty();
+       chat.messageDialog.clear();
         getMessageHistory(user_id);
         //
-        $('.chat_window').removeClass('hidden');
+        chat.messageDialog.open();
         $(".send_message").data('user', user_id);
         $(".top_menu .title").html('Chat with [ '+user_name+' ]');
     };
@@ -130,7 +130,7 @@ $(function () {
     $(document).on('click', '.btn-write-user-message', clickOpenMessageDialog);
 
     $('.chat_window .buttons > .close').click(function (e) {
-        $('.chat_window').addClass('hidden');
+        chat.messageDialog.close();
     });
 
     setInterval(readMessageTimer, 1000);

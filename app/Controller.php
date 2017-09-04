@@ -81,7 +81,8 @@ abstract class AbstractController implements IController
      *
      * @return string
      */
-    private function _requireToVar($file){
+    private function _requireToVar($file)
+    {
         ob_start();
         require($file);
         return ob_get_clean();
@@ -98,9 +99,9 @@ abstract class AbstractController implements IController
             $this->$var = $value;
         }
 
-        $view = empty($view) ? $this->route.'/'.$this->action : $view;
-        $this->view = $this->_requireToVar(ROOT_DIR.'/views/' . $view . '.php');
-        return require_once(ROOT_DIR.'/views/layout/' . $this->layout . '.php');
+        $view       = empty($view) ? $this->route . '/' . $this->action : $view;
+        $this->view = $this->_requireToVar(ROOT_DIR . '/views/' . $view . '.php');
+        return require_once(ROOT_DIR . '/views/layout/' . $this->layout . '.php');
     }
 
     /**
@@ -123,6 +124,30 @@ abstract class AbstractController implements IController
         echo json_encode($data);
         return true;
     }
+
+    /**
+     * Respons to ajax
+     *
+     * @param $data
+     * @param $fields
+     * @return bool
+     */
+    public function toJson($data, array $fields = [])
+    {
+        if (empty($fields)) {
+            return json_encode($data);
+        }
+        else {
+            $tmp = [];
+            foreach ($fields as $param) {
+//                if (in_array($param, $data)) {
+                    $tmp[$param] = $data[$param];
+//                }
+            }
+            return json_encode($tmp);
+        }
+    }
+
 
     /**
      * @param $route

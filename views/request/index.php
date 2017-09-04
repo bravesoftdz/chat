@@ -77,6 +77,7 @@
                             <?php } ?>
                             </tbody>
                         </table>
+                        <a href="/" type="button" class="btn btn-primary pull-right">❮ Back</a>
                     </div>
                 </div>
             </div>

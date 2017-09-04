@@ -32,5 +32,13 @@
         }
     });
 
+    channel.bind('request-friend-remove', function (data) {
+        if (data.user.id != $('#user_id').data('id')) {
+            $('.panel-friend .table-friends .user-id-' + data.user.id).remove();
+            var new_user = renderTemplate('new-user-item', {id: data.user.id, name: data.user.name});
+            $('.panel-users .table-users tbody').append(new_user);
+        }
+    });
+
 </script>
 

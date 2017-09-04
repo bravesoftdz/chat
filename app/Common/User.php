@@ -8,6 +8,7 @@ namespace Dykyi\Common;
 class User
 {
     private $email;
+    private $name;
     private $id;
     private $password;
 
@@ -20,11 +21,9 @@ class User
         $this->id       = empty($data['id']) ? null : $data['id'];
         $this->email    = $data['email'];
         $this->password = $data['password'];
+        $this->name     = $data['name'];
     }
 
-    /**
-     * @return mixed
-     */
     public function getUserEmail()
     {
         return $this->email;
@@ -35,9 +34,11 @@ class User
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
+    public function getUserName()
+    {
+        return $this->name;
+    }
+
     public function getPassword()
     {
         return $this->password;

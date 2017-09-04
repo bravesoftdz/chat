@@ -31,6 +31,7 @@ class Login
     {
         if ($this->user->getUserEmail() == $existUser->getUserEmail()) {
             if (password_verify($this->user->getPassword(), $existUser->getPassword())) {
+                $_SESSION['name']   = $existUser->getUserName();
                 $_SESSION['user'] = $existUser->getUserEmail();
                 $_SESSION['id']   = $existUser->getUserID();
                 return true;

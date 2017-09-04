@@ -20,5 +20,5 @@ clickSendRequest = function (e) {
 };
 
 $(function () {
-    $('.btn-send-user-request').click(clickSendRequest);
+    $(document).on('click', '.btn-send-user-request', clickSendRequest);
 });

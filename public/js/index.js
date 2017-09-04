@@ -56,7 +56,7 @@ clickDialogUserRemove = function () {
         url: "index/removeFriend",
         cache: false,
         type: "POST",
-        data: {id: user.id},
+        data: {id: user.id, name: user.name},
         dataType: 'json',
         success: function (data) {
             if (data.success) {
@@ -65,11 +65,9 @@ clickDialogUserRemove = function () {
                     friend_count.html(parseInt(friend_count.html() - 1));
                     $('.panel-friend .table-friends .user-id-' + user.id).remove();
 
-                    var new_user = renderTemplate('new-user-item', {
-                        id: user.id,
-                        name: user.name
-                    });
+                    var new_user = renderTemplate('new-user-item', {id: user.id, name: user.name});
                     $('.panel-users .table-users tbody').append(new_user);
+
                 }
             }
         }
@@ -88,7 +86,7 @@ clickOpenDialogUserRemove = function () {
 
 $(function () {
     setStatus($('#user_id').data('status'));
-    $('#modal-user-remove .btn-remove').click(clickDialogUserRemove);
+    $(document).on('click', '#modal-user-remove .btn-remove', clickDialogUserRemove);
     $('.btn-remove-user').click(clickOpenDialogUserRemove);
     $('#dropdown-status-menu li').click(clickChangeStatus);
 });

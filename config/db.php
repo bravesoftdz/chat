@@ -2,9 +2,9 @@
 
 return [
     'mysql' => [
-        'host' => "127.0.0.1",
-        'db'   => "chat",
+        'host' => "vm-slave",
+        'db'   => "uvocorpcom_orderform",
         'user' => "root",
-        'password' => "root",
+        'password' => "password",
     ],
 ];

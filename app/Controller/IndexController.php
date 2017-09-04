@@ -23,7 +23,7 @@ class IndexController extends AbstractController
     protected $friendModel;
     protected $requestModel;
 
-    protected $user        = [];
+    protected $user = [];
 
     public function __construct()
     {
@@ -53,15 +53,21 @@ class IndexController extends AbstractController
     public function changeStatus()
     {
         $userStatus = $this->post->get('id');
-        $status = $this->userModel->changeUserStatus($userStatus);
-        return $this->json(['success'  => $status]);
+        $status     = $this->userModel->changeUserStatus($userStatus);
+        return $this->json(['success' => $status]);
     }
 
     public function removeFriend()
     {
-        $userID = $this->post->get('id');
-        $status = $this->friendModel->removeFriendByUserId($userID);
-        return $this->json(['success'  => $status]);
+        $status = $this->friendModel->removeFriendByUserId($this->post->get('id'));
+        if ($status) {
+            $pusher = new PushFactory(new PusherClass());
+            $pusher->send(['user' => [
+                'id' => $this->session->get('id'),
+                'name' => $this->session->get('name'),
+            ]], 'request-friend-remove');
+        }
+        return $this->json(['success' => $status]);
     }
 
 }

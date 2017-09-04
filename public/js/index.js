@@ -62,12 +62,14 @@ clickDialogUserRemove = function () {
             if (data.success) {
                 var friend_count = $('#friend-list-count');
                 if (parseInt(friend_count.html()) > 0) {
-                    friend_count.html(parseInt(friend_count.html() - 1));
+                    friend_count.html(parseInt(friend_count.html()) - 1);
                     $('.panel-friend .table-friends .user-id-' + user.id).remove();
 
                     var new_user = renderTemplate('new-user-item', {id: user.id, name: user.name});
                     $('.panel-users .table-users tbody').append(new_user);
 
+                    var user_count = $('#users-list-count');
+                    user_count.html(parseInt(user_count.html()) + 1);
                 }
             }
         }
@@ -87,6 +89,6 @@ clickOpenDialogUserRemove = function () {
 $(function () {
     setStatus($('#user_id').data('status'));
     $(document).on('click', '#modal-user-remove .btn-remove', clickDialogUserRemove);
-    $('.btn-remove-user').click(clickOpenDialogUserRemove);
+    $(document).on('click', '.btn-remove-user', clickOpenDialogUserRemove);
     $('#dropdown-status-menu li').click(clickChangeStatus);
 });

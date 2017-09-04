@@ -37,3 +37,26 @@
         </div>
     <?php } ?>
 </div>
+
+
+<script type="html/tpl" id="new-friend-item">
+<tr class="user-id-{id}">
+    <td width="10">
+        <img class="pull-left img-circle nav-user-photo" width="50" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA">
+    </td>
+    <td>
+        {name}<br><i class="fa fa-envelope"></i>
+    </td>
+    <td align="center">
+        <small class="text-muted">Last Active: {data}</small>
+    </td>
+    <td>
+        <small class="text-muted">
+            <button type="button" class="btn btn-warning btn-write-user-message" data-name="{name}" data-user="{id}"> <span class="glyphicon glyphicon-pencil"></span></button>
+        </small>
+        <small class="text-muted">
+            <button type="button" class="btn btn-danger btn-remove-user" data-user='{"id":"{id}", "name":"{name}"}'> <span class="glyphicon glyphicon-remove"></span></button>
+        </small>
+    </td>
+</tr>
+</script>

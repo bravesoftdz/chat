@@ -127,7 +127,7 @@ $(function () {
         }
     });
 
-    $('.btn-write-user-message').click(clickOpenMessageDialog);
+    $(document).on('click', '.btn-write-user-message', clickOpenMessageDialog);
 
     $('.chat_window .buttons > .close').click(function (e) {
         $('.chat_window').addClass('hidden');

@@ -55,6 +55,13 @@ class RequestController extends AbstractController
     public function accept()
     {
         $status = $this->requestModel->accept($this->post->get('id'));
+        if ($status) {
+            $pusher = new PushFactory(new PusherClass());
+            $pusher->send(['user' => [
+                'id'   => $this->session->get('id'),
+                'name' => $this->session->get('name')
+            ], 'decline_id' => $this->session->get('id')], 'request-friend-accept');
+        }
         return $this->json(['success' => $status]);
     }
 

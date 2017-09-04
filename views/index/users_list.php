@@ -9,7 +9,7 @@
                 <table class="table-users table" border="0">
                     <tbody>
                     <?php foreach ($this->usersList as $user) { ?>
-                        <tr>
+                        <tr class="user-id-<?= $user['id'] ?>">
                             <td width="10">
                                 <img class="pull-left img-circle nav-user-photo" width="50" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>
                             </td>

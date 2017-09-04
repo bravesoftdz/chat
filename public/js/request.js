@@ -18,16 +18,17 @@ clickDecline = function (e) {
 };
 
 clickAddFriend = function (e) {
-    var userId = $(this).data('user');
+    var user = $(this).data('user');
+    console.log(user);
     $.ajax({
         url: "request/accept",
         cache: false,
         type: "POST",
-        data: {id: userId},
+        data: {id: user.sender_id, name: user.name},
         dataType: 'json',
         success: function (data) {
             if (data.success) {
-                $('.request-id-' + userId).remove();
+                $('.request-id-' + user.sender_id).remove();
                 var tmp = $('#request-list-count');
                 tmp.text(parseInt(tmp.html()) - 1);
             }

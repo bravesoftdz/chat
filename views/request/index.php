@@ -65,7 +65,7 @@
                                     </td>
                                     <td align="right">
                                         <small class="text-muted">
-                                            <button type="button" class="btn btn-success btn-add-user-to-friends" data-user="<?= $user['sender_id'] ?>">
+                                            <button type="button" class="btn btn-success btn-add-user-to-friends" data-user='<?= $this->toJson($user,['sender_id', 'name']) ?>'>
                                                 <span class="glyphicon glyphicon-ok-circle"></span>
                                             </button>
                                             <button type="button" class="btn btn-danger btn-decline-user" data-user="<?= $user['sender_id'] ?>">

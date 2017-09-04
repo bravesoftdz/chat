@@ -6,6 +6,7 @@ implemented on the kernel: [MVC](https://github.com/dykyi-roman/mvc/blob/master/
 
 ## Installation
 + run the script ```"db.sql"``` in the folder migration
++ run the script ```"table.sql"``` in the folder migration
 + run command ``` composer install --optimize-autoloader```
   
 ## Usage package

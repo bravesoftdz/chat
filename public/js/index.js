@@ -1,4 +1,4 @@
-clickChangeStatus = function(e) {
+clickChangeStatus = function (e) {
     var statusId = $(this).data('id');
     chat.status.clear();
     $.ajax({
@@ -7,15 +7,15 @@ clickChangeStatus = function(e) {
         type: "POST",
         data: {id: statusId},
         dataType: 'json',
-        success: function(data) {
-            if(data.success) {
+        success: function (data) {
+            if (data.success) {
                 chat.status.set(statusId);
             }
         }
     });
 };
 
-clickDialogUserRemove = function() {
+clickDialogUserRemove = function () {
     var user = $(this).data('user');
     chat.messageDialog.close();
     $.ajax({
@@ -24,13 +24,11 @@ clickDialogUserRemove = function() {
         type: "POST",
         data: {id: user.id, name: user.name},
         dataType: 'json',
-        success: function(data) {
-            if(data.success) {
+        success: function (data) {
+            if (data.success) {
                 var friend_count = $('#friend-list-count');
-                if(parseInt(friend_count.html()) > 0) {
-                    chat.decCounter(friend_count);
+                if (parseInt(friend_count.html()) > 0) {
                     chat.moveFriendToUserList(user);
-                    chat.incCounter($('#users-list-count'));
                 }
             }
         }
@@ -38,14 +36,14 @@ clickDialogUserRemove = function() {
     dialog.modal('hide');
 };
 
-clickOpenDialogUserRemove = function() {
+clickOpenDialogUserRemove = function () {
     var user = $(this).data('user');
     dialog.find('.modal-footer .btn-remove').data('user', user);
     dialog.find('.modal-body').html('Break ties with ' + user.name + '?');
     dialog.modal('show');
 };
 
-$(function() {
+$(function () {
     dialog = $('#modal-user-remove');
     chat.status.set($('#user_id').data('status'));
     $(document).on('click', '#modal-user-remove .btn-remove', clickDialogUserRemove);

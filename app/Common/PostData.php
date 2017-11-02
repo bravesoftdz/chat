@@ -3,36 +3,31 @@
 namespace Dykyi\Common;
 
 /**
- * Interface IPostData
- * @package Dykyi\Common
- */
-interface IPostData
-{
-    /**
-     * Get post value
-     *
-     * @param $key
-     * @return mixed
-     */
-    public function get($key);
-}
-
-/**
  * Class PostData
  * @package Dykyi\Common
  */
-class PostData implements IPostData
+class PostData implements IGetData
 {
+    /**
+     * @var array
+     */
     private $data = [];
 
+    /**
+     * PostData constructor.
+     */
     public function __construct()
     {
         $this->data = $_POST;
     }
 
+    /**
+     * @param string $key
+     * @return array|mixed|string
+     */
     public function get($key = '')
     {
-        if ($key == ''){
+        if ($key === ''){
             return $this->data;
         }
         return empty($this->data[$key]) ? '' : $this->data[$key];

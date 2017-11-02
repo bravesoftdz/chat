@@ -2,9 +2,9 @@
 
 namespace Dykyi\Controller;
 
-use Dykyi\AbstractController;
-use Dykyi\Common\PusherClass;
-use Dykyi\Common\PushFactory;
+use Dykyi\Services\Push\PushClass;
+use Dykyi\Services\Push\PushFactory;
+use Dykyi\ControllerAbstract;
 use Dykyi\Model\FriendsModel;
 use Dykyi\Model\RequestModel;
 use Dykyi\Model\UsersModel;
@@ -17,7 +17,7 @@ use Dykyi\Model\UsersModel;
  * @property FriendsModel $friendModel
  * @property RequestModel $requestModel
  */
-class IndexController extends AbstractController
+class IndexController extends ControllerAbstract
 {
     protected $userModel;
     protected $friendModel;
@@ -54,6 +54,7 @@ class IndexController extends AbstractController
     {
         $userStatus = $this->post->get('id');
         $status     = $this->userModel->changeUserStatus($userStatus);
+
         return $this->json(['success' => $status]);
     }
 
@@ -61,12 +62,13 @@ class IndexController extends AbstractController
     {
         $status = $this->friendModel->removeFriendByUserId($this->post->get('id'));
         if ($status) {
-            $pusher = new PushFactory(new PusherClass());
+            $pusher = new PushFactory(new PushClass());
             $pusher->send(['user' => [
-                'id' => $this->session->get('id'),
-                'name' => $this->session->get('name'),
-            ]], 'friend-remove-event');
+                    'id' => $this->session->get('id'),
+                    'name' => $this->session->get('name'),]], 'friend-remove-event'
+            );
         }
+
         return $this->json(['success' => $status]);
     }
 

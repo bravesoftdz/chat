@@ -6,15 +6,19 @@ use Dykyi\Common\Database;
 use Dykyi\Common\Session;
 
 /**
- * Class Model
+ * Class ModelAbstract
+ *
  * @package Dykyi
  */
-abstract class Model
+abstract class ModelAbstract
 {
     protected $db = null;
+
     protected $session = [];
 
-
+    /**
+     * Model constructor.
+     */
     public function __construct()
     {
         $this->db = Database::getInstance();

@@ -2,7 +2,7 @@
 
 namespace Dykyi\Model;
 
-use Dykyi\Model;
+use Dykyi\ModelAbstract;
 use PDOException;
 
 /**
@@ -10,7 +10,7 @@ use PDOException;
  *
  * @property $db Database
  */
-final class FriendsModel extends Model
+final class FriendsModel extends ModelAbstract
 {
     const TABLE_NAME = 'friends';
 
@@ -41,8 +41,9 @@ final class FriendsModel extends Model
      */
     public function getUserFriends()
     {
+        $sessionId = $this->session->get('id');
         $stmt = $this->db->prepare("SELECT users.* FROM users WHERE users.id IN (select friends.friend_id from friends WHERE friends.user_id = :user_id )");
-        $stmt->bindParam(":user_id", $this->session->get('id'));
+        $stmt->bindParam(":user_id", $sessionId);
         $stmt->execute();
         return $stmt->fetchAll();
     }

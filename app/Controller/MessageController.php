@@ -2,7 +2,7 @@
 
 namespace Dykyi\Controller;
 
-use Dykyi\AbstractController;
+use Dykyi\ControllerAbstract;
 use Dykyi\Model\MessageModel;
 
 /**
@@ -11,13 +11,14 @@ use Dykyi\Model\MessageModel;
  *
  * @property MessageModel $messageModel
  */
-class MessageController extends AbstractController
+class MessageController extends ControllerAbstract
 {
     protected $messageModel;
 
     public function __construct()
     {
         parent::__construct();
+
         $this->messageModel = new MessageModel();
     }
 
@@ -31,12 +32,14 @@ class MessageController extends AbstractController
         $recipient_id = $this->post->get('id');
         $message      = $this->post->get('message');
         $status       = $this->messageModel->sendMessage($recipient_id, $message);
+
         return $this->json(['success' => $status]);
     }
 
     public function read()
     {
         $messageText = $this->messageModel->readMessage();
+
         return $this->json(['success'     => $messageText !== false, 'messageText' => $messageText]);
     }
 
@@ -44,6 +47,7 @@ class MessageController extends AbstractController
     {
         $recipient_id = $this->post->get('id');
         $messages     = $this->messageModel->getMessageHistory($recipient_id);
+
         return $this->json(['success'  => $messages !== false, 'messages' => $messages]);
     }
 }

@@ -3,34 +3,39 @@
 namespace Dykyi\Model;
 
 use Dykyi\Common\User;
-use Dykyi\Model;
+use Dykyi\ModelAbstract;
 use PDOException;
 
 /**
  * Class Database
  */
-class UsersModel extends Model
+class UsersModel extends ModelAbstract
 {
     const TABLE_NAME = 'users';
 
     /**
+     * @param $password
+     * @return bool|string
+     */
+    private function passwordGenerate($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    /**
      * Add new user
      *
-     * @param $data
+     * @param array $data
      * @return bool
      */
-    public function save($data)
+    public function save(array $data)
     {
         unset($data['g-recaptcha-response'],
             $data['confirm-password'],
             $data['register_form'],
             $data['register-submit']
         );
-        $password_hash = password_hash($data['password'], PASSWORD_DEFAULT);
-        if ($password_hash) {
-            $data['password'] = $password_hash;
-        }
-
+        $data['password'] = $this->passwordGenerate($data['password']);
         try {
             $sql  = "INSERT INTO " . self::TABLE_NAME . " (name, email, password) VALUES (:name, :email, :password)";
             $stmt = $this->db->prepare($sql);
@@ -48,7 +53,7 @@ class UsersModel extends Model
     /**
      * find user by email
      *
-     * @param $email
+     * @param string $email
      * @return bool|User
      */
     public function findByEmail($email)
@@ -63,15 +68,16 @@ class UsersModel extends Model
             }
         } catch (PDOException $e) {
             var_dump($stmt->errorInfo());
-            return false;
         }
+
         return false;
     }
 
     public function updateActivity()
     {
-        $stmt = $this->db->prepare('UPDATE users SET last_active = NOW() WHERE id = :id');
+        $stmt = $this->db->prepare('UPDATE '. self::TABLE_NAME . ' SET last_active = NOW() WHERE id = :id');
         $stmt->bindParam(":id", $this->session->get('id'));
+
         return $stmt->execute();
     }
 
@@ -83,6 +89,7 @@ class UsersModel extends Model
     public function getAll()
     {
         $stmt = $this->db->query('SELECT * FROM ' . self::TABLE_NAME);
+
         return $stmt->fetchAll();
     }
 
@@ -99,6 +106,7 @@ class UsersModel extends Model
             ' WHERE users.id != :id AND users.id NOT IN (select friends.friend_id from friends WHERE friends.user_id = :id)');
         $stmt->bindParam(":id", $this->session->get('id'));
         $stmt->execute();
+
         return $stmt->fetchAll();
     }
 
@@ -123,6 +131,7 @@ class UsersModel extends Model
         $stmt = $this->db->prepare('UPDATE users SET status_id = :status WHERE id = :id');
         $stmt->bindParam(":id", $this->session->get('id'));
         $stmt->bindParam(":status", $status);
+
         return $stmt->execute();
     }
 
@@ -130,9 +139,11 @@ class UsersModel extends Model
      * @return mixed
      */
     public function getUserInfo(){
+        $sessionId = $this->session->get('id');
         $stmt = $this->db->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = :id');
-        $stmt->bindParam(":id", $this->session->get('id'));
+        $stmt->bindParam(":id", $sessionId);
         $stmt->execute();
+
         return $stmt->fetch();
     }
 

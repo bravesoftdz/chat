@@ -2,12 +2,12 @@
 
 namespace Dykyi\Model;
 
-use Dykyi\Model;
+use Dykyi\ModelAbstract;
 
 /**
  * Class Database
  */
-class RequestModel extends Model
+class RequestModel extends ModelAbstract
 {
     const TABLE_NAME = 'request';
 
@@ -31,8 +31,9 @@ class RequestModel extends Model
      */
     public function getUserRequestCount()
     {
+        $sessionId = $this->session->get('id');
         $stmt = $this->db->prepare('SELECT count(*) FROM ' . self::TABLE_NAME . ' WHERE recipient_id = :user_id AND accepted = 0');
-        $stmt->bindParam(":user_id", $this->session->get('id'));
+        $stmt->bindParam(":user_id", $sessionId);
         $stmt->execute();
         return $stmt->fetchColumn();
     }

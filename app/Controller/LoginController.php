@@ -4,7 +4,7 @@ namespace Dykyi\Controller;
 
 use Dykyi\Common\SignUp;
 use Dykyi\Common\Login;
-use Dykyi\AbstractController;
+use Dykyi\ControllerAbstract;
 use Dykyi\Model\UsersModel;
 
 /**
@@ -14,7 +14,7 @@ use Dykyi\Model\UsersModel;
  *
  * @property UsersModel $users;
  */
-class LoginController extends AbstractController
+class LoginController extends ControllerAbstract
 {
     protected $users;
 

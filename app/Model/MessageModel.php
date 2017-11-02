@@ -2,12 +2,12 @@
 
 namespace Dykyi\Model;
 
-use Dykyi\Model;
+use Dykyi\ModelAbstract;
 
 /**
  * Class Database
  */
-class MessageModel extends Model
+class MessageModel extends ModelAbstract
 {
     const TABLE_NAME = 'messages';
 

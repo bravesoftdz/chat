@@ -6,43 +6,10 @@ use Dykyi\Common\PostData;
 use Dykyi\Common\Session;
 
 /**
- * Interface IController
+ * Class ControllerAbstract
  * @package Dykyi
  */
-interface IController
-{
-    /**
-     * Index page must have
-     *
-     * @return mixed
-     */
-    public function index();
-
-    /**
-     * Render To Action
-     *
-     * @param $route
-     * @param $params
-     * @return mixed
-     */
-    public function render($route, array $params);
-
-    /**
-     * Render View Page
-     *
-     * @param $view
-     * @param array $params
-     * @return mixed
-     */
-    public function view($view, array $params);
-
-}
-
-/**
- * Class Controller
- * @package Dykyi
- */
-abstract class AbstractController implements IController
+abstract class ControllerAbstract implements ControllerInterface
 {
     protected $action;
     protected $route;
@@ -54,7 +21,10 @@ abstract class AbstractController implements IController
 
     protected $message = '';
 
-    function __construct()
+    /**
+     * AbstractController constructor.
+     */
+    public function __construct()
     {
         $this->post    = new PostData();
         $this->session = new Session();
@@ -99,7 +69,7 @@ abstract class AbstractController implements IController
             $this->$var = $value;
         }
 
-        $view       = empty($view) ? $this->route . '/' . $this->action : $view;
+        $view = empty($view) ? $this->route . '/' . $this->action : $view;
         $this->view = $this->_requireToVar(ROOT_DIR . '/views/' . $view . '.php');
         return require_once(ROOT_DIR . '/views/layout/' . $this->layout . '.php');
     }
@@ -137,21 +107,18 @@ abstract class AbstractController implements IController
         if (empty($fields)) {
             return json_encode($data);
         }
-        else {
-            $tmp = [];
-            foreach ($fields as $param) {
-//                if (in_array($param, $data)) {
-                    $tmp[$param] = $data[$param];
-//                }
-            }
-            return json_encode($tmp);
+
+        $tmp = [];
+        foreach ($fields as $param) {
+            $tmp[$param] = $data[$param];
         }
+        return json_encode($tmp);
+
     }
 
-
     /**
-     * @param $route
-     * @param $params
+     * @param string $route
+     * @param array $params
      * @return bool
      */
     public function render($route = '', array $params = [])

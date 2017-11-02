@@ -11,9 +11,9 @@ require_once '../vendor/autoload.php';
 
 session_start();
 
-//$whoops = new \Whoops\Run;
-//$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-//$whoops->register();
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 
 function getUrlParam($param)
 {

@@ -12,6 +12,7 @@ implemented on the kernel: [MVC](https://github.com/dykyi-roman/mvc/blob/master/
 ## Usage package
 + pusher-php-server
 + predis
++ whoops
   
 ## Implemented
 + login & sign up

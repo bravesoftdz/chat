@@ -18,7 +18,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-friend-list">
                 <li><a href="<?= $this->session->get('id') ? '/request' : '' ?>">Request <span id="request-count" class="badge"><?= $this->request['count'] > 0 ? $this->request['count'] : '' ?></span></a></li>
-                <? if (!empty($this->session->get('user'))) : ?>
+                <?php if (!empty($this->session->get('user'))) : ?>
                     <li id="user_id" data-id="<?= $this->session->get('id') ?>" data-status="<?= $this->user['status_id'] ?>" style="top: 15px;">
                             <span class="dropdown-toggle" data-toggle="dropdown"><?= $this->session->get('user') ?>
                                 <span class="user-status-icon glyphicon glyphicon-ok-sign"></span>
@@ -33,9 +33,9 @@
                         </ul>
                     </li>
 
-                <? else: ?>
+                <?php else: ?>
                     <li><a href="login">Login</a></li>
-                <? endif; ?>
+                <?php endif; ?>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

@@ -2,8 +2,8 @@
 
 return [
     'mysql' => [
-        'host' => "vm-slave",
-        'db'   => "uvocorpcom_orderform",
+        'host' => "localhost",
+        'db'   => "db",
         'user' => "root",
         'password' => "password",
     ],

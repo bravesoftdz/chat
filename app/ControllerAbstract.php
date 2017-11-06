@@ -4,6 +4,8 @@ namespace Dykyi;
 
 use Dykyi\Common\PostData;
 use Dykyi\Common\Session;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 /**
  * Class ControllerAbstract
@@ -19,6 +21,11 @@ abstract class ControllerAbstract implements ControllerInterface
     protected $post;
     protected $session;
 
+    /**
+     * @var Logger
+     */
+    protected $log;
+
     protected $message = '';
 
     /**
@@ -28,6 +35,15 @@ abstract class ControllerAbstract implements ControllerInterface
     {
         $this->post    = new PostData();
         $this->session = new Session();
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setLogFile($fileName = 'log.log')
+    {
+        $this->log = new Logger('Chat');
+        $this->log->pushHandler(new StreamHandler($fileName, Logger::WARNING));
     }
 
     /**

@@ -10,8 +10,10 @@ implemented on the kernel: [MVC](https://github.com/dykyi-roman/mvc/blob/master/
 + run command ``` composer install --optimize-autoloader```
   
 ## Usage package
++ phpdotenv
 + pusher-php-server
 + predis
++ monolog
 + whoops
   
 ## Implemented

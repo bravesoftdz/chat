@@ -3,6 +3,7 @@
 namespace Dykyi;
 
 use Dotenv\Dotenv;
+use Dykyi\Common\Config;
 
 $pos              = strripos($_SERVER['DOCUMENT_ROOT'], '/');
 $documentRootPath = mb_strcut($_SERVER['DOCUMENT_ROOT'], 0, $pos);
@@ -16,4 +17,4 @@ $dotenv = new Dotenv('../');
 $dotenv->load();
 
 $app = new Application();
-$app->run(false);
+$app->run(Config::env('DEBUG'));

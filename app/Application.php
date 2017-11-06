@@ -3,6 +3,8 @@
 namespace Dykyi;
 
 use Dotenv\Dotenv;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use stdClass;
 
 /**
@@ -60,14 +62,19 @@ class Application
            $this->debugRegister();
         }
 
+        //Init Class
         $route = $this->parseURI();
         $className = __NAMESPACE__ . "\\Controller\\" . ucfirst($route->route) . 'Controller';
         $class     = new $className();
         $class->setAction($route->action);
         $class->setRoute($route->route);
 
+        //Set log file
+        $currentTime = new \DateTime();
+        $class->setLogFile('logs/'.$currentTime->format('Y-m-d').'.log');
+
         $action = $route->action;
-        $fct  = new \ReflectionMethod($className, $action);
+        $fct = new \ReflectionMethod($className, $action);
         if ($fct->getNumberOfRequiredParameters() > 0){
             $class->$action(...$route->arguments);
         } else{

@@ -3,6 +3,7 @@
         "pusher/pusher-php-server": "^3.0",
         "predis/predis": "^1.1",
         "filp/whoops": "^2.1",
+        "monolog/monolog": "^1.23",
         "vlucas/phpdotenv": "^2.4"
     },
     "autoload": {

@@ -8,6 +8,15 @@ namespace Dykyi\Common;
 class Config
 {
     /**
+     * @param string $key
+     * @return array
+     */
+    public static function env($key)
+    {
+        return isset($_ENV[$key]) ? $_ENV[$key] : [];
+    }
+
+    /**
      * @var mixed[]
      */
     protected static $data = array();

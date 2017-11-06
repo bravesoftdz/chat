@@ -2,6 +2,7 @@
 
 namespace Dykyi;
 
+use Dotenv\Dotenv;
 use stdClass;
 
 /**
@@ -43,11 +44,23 @@ class Application
         return $std;
     }
 
-
-    public function run()
+    private function debugRegister()
     {
-        $route = $this->parseURI();
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+        $whoops->register();
+    }
 
+    /**
+     * @param bool $debug
+     */
+    public function run($debug = false)
+    {
+        if ($debug === true){
+           $this->debugRegister();
+        }
+
+        $route = $this->parseURI();
         $className = __NAMESPACE__ . "\\Controller\\" . ucfirst($route->route) . 'Controller';
         $class     = new $className();
         $class->setAction($route->action);

@@ -4,14 +4,18 @@ namespace Dykyi;
 
 use Dykyi\Common\PostData;
 use Dykyi\Common\Session;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Class ControllerAbstract
+ *
+ * @param LoggerInterface|null $logger
+ *
  * @package Dykyi
  */
-abstract class ControllerAbstract implements ControllerInterface
+abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInterface
 {
     protected $action;
     protected $route;
@@ -21,29 +25,35 @@ abstract class ControllerAbstract implements ControllerInterface
     protected $post;
     protected $session;
 
-    /**
-     * @var Logger
-     */
-    protected $log;
-
     protected $message = '';
 
     /**
-     * AbstractController constructor.
+     * @var LoggerInterface
      */
-    public function __construct()
+    protected $logger;
+
+    /**
+     * AbstractController constructor.
+     *
+     */
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->post    = new PostData();
         $this->session = new Session();
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
-     * @param string $fileName
+     * Sets a logger.
+     *
+     * @param LoggerInterface $logger
+     *
+     * @return $this
      */
-    public function setLogFile($fileName = 'log.log')
+    public function setLogger(LoggerInterface $logger)
     {
-        $this->log = new Logger('Chat');
-        $this->log->pushHandler(new StreamHandler($fileName, Logger::WARNING));
+        $this->logger = $logger;
+        return $this;
     }
 
     /**

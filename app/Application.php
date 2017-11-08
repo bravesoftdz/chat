@@ -69,10 +69,6 @@ class Application
         $class->setAction($route->action);
         $class->setRoute($route->route);
 
-        //Set log file
-        $currentTime = new \DateTime();
-        $class->setLogFile('logs/'.$currentTime->format('Y-m-d').'.log');
-
         $action = $route->action;
         $fct = new \ReflectionMethod($className, $action);
         if ($fct->getNumberOfRequiredParameters() > 0){

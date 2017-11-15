@@ -18,15 +18,16 @@ class SignUp
 
     /**
      * SignUp constructor.
-     * @param $post
+     * @param array $post
      */
     public function __construct($post)
     {
         foreach ($post as &$one) {
             $one = trim($one);
         }
+        unset($one);
 
-        $this->user            = new User($post);
+        $this->user            = new UserEntity($post);
         $this->captcha         = $post['g-recaptcha-response'];
         $this->confirmPassword = $post['confirm-password'];
     }
@@ -41,19 +42,17 @@ class SignUp
             $this->error = 'Captcha not found!';
             return false;
         }
-        else {
-            $secretKey = $recaptcha['secret'];
-            $ip        = $_SERVER['REMOTE_ADDR'];
-            $response  = file_get_contents($recaptcha['url'] . '?secret=' . $secretKey . '&response=' . $this->captcha . '&remoteip=' . $ip);
-            $result    = json_decode($response, true);
-            if (intval($result['success']) !== 1) {
-                $this->error = "You are spammer ! Get the @$%K out";
-                return false;
-            }
-            else {
-                $this->error = '';
-            }
+
+        $secretKey = $recaptcha['secret'];
+        $ip        = $_SERVER['REMOTE_ADDR'];
+        $response  = file_get_contents($recaptcha['url'] . '?secret=' . $secretKey . '&response=' . $this->captcha . '&remoteip=' . $ip);
+        $result    = json_decode($response, true);
+        if ((int)$result['success'] !== 1) {
+            $this->error = "You are spammer ! Get the @$%K out";
+            return false;
         }
+
+        $this->error = '';
         return true;
     }
 

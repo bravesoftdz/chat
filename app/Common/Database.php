@@ -11,20 +11,24 @@ use PDOException;
  */
 class Database
 {
-    private        $_connection;
-    private static $_instance; //The single instance
+    private        $connection;
+
+    /** @var PDO - The single instance */
+    private static $instance;
 
     /**
      * Get an instance of the Database
      *
-     * @return Database
+     * @return PDO Database
      */
     public static function getInstance()
     {
-        if (!self::$_instance) { // If no instance then make one
+        // If no instance then make one
+        if (!self::$instance) {
             new self();
         }
-        return self::$_instance;
+
+        return self::$instance;
     }
 
     public function __construct()
@@ -34,9 +38,9 @@ class Database
         $user     = $config['mysql']['user'];
         $password = $config['mysql']['password'];
         try {
-            self::$_instance = new PDO($dsn, $user, $password);
+            self::$instance = new PDO($dsn, $user, $password);
         } catch (PDOException $e) {
-            echo 'Error conect: ' . $e->getMessage();
+            echo 'Error connect: ' . $e->getMessage();
         }
     }
 
@@ -55,6 +59,6 @@ class Database
      */
     public function getConnection()
     {
-        return $this->_connection;
+        return $this->connection;
     }
 }

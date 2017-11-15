@@ -2,7 +2,7 @@
 
 namespace Dykyi\Model;
 
-use Dykyi\Common\User;
+use Dykyi\Common\UserEntity;
 use Dykyi\ModelAbstract;
 use PDOException;
 
@@ -54,7 +54,7 @@ class UsersModel extends ModelAbstract
      * find user by email
      *
      * @param string $email
-     * @return bool|User
+     * @return bool|UserEntity
      */
     public function findByEmail($email)
     {
@@ -64,7 +64,7 @@ class UsersModel extends ModelAbstract
             $stmt->execute();
             $user = $stmt->fetch();
             if ($user) {
-                return new User($user);
+                return new UserEntity($user);
             }
         } catch (PDOException $e) {
             var_dump($stmt->errorInfo());

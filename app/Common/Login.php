@@ -12,7 +12,7 @@ class Login
 
     public function __construct($post)
     {
-        $this->user = new User($post);
+        $this->user = new UserEntity($post);
     }
 
     /**
@@ -24,12 +24,12 @@ class Login
     }
 
     /**
-     * @param User $existUser
+     * @param UserEntity $existUser
      * @return bool
      */
-    public function verifyUser(User $existUser)
+    public function verifyUser(UserEntity $existUser)
     {
-        if ($this->user->getUserEmail() == $existUser->getUserEmail()) {
+        if ($this->user->getUserEmail() === $existUser->getUserEmail()) {
             if (password_verify($this->user->getPassword(), $existUser->getPassword())) {
                 $_SESSION['name']   = $existUser->getUserName();
                 $_SESSION['user'] = $existUser->getUserEmail();
@@ -52,6 +52,7 @@ class Login
         $hour = time() + 3600 * 24 * 30;
         setcookie('user', $user->name, $hour);
         setcookie('password', $user->password, $hour);
+
         return true;
     }
 }

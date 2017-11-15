@@ -5,7 +5,7 @@ namespace Dykyi\Common;
 /**
  * Class User
  */
-class User
+class UserEntity
 {
     private $email;
     private $name;

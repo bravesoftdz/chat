@@ -3,10 +3,10 @@
 namespace Dykyi\Common;
 
 /**
- * Interface IGetData
+ * Interface GetDataInterface
  * @package Dykyi\Common
  */
-interface IGetData
+interface GetDataInterface
 {
     /**
      * Get get value

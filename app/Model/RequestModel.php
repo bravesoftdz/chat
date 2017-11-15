@@ -9,7 +9,7 @@ use Dykyi\ModelAbstract;
  */
 class RequestModel extends ModelAbstract
 {
-    const TABLE_NAME = 'request';
+    public $table = 'request';
 
     /**
      * Get All User friends
@@ -18,7 +18,7 @@ class RequestModel extends ModelAbstract
      */
     public function getUserRequest()
     {
-        $stmt = $this->db->prepare('SELECT users.*, request.sender_id FROM ' . self::TABLE_NAME . ' LEFT JOIN users ON users.id = sender_id WHERE recipient_id = :user_id');
+        $stmt = $this->db->prepare('SELECT users.*, request.sender_id FROM ' . $this->table . ' LEFT JOIN users ON users.id = sender_id WHERE recipient_id = :user_id');
         $stmt->bindParam(":user_id", $this->session->get('id'));
         $stmt->execute();
         return $stmt->fetchAll();
@@ -32,7 +32,7 @@ class RequestModel extends ModelAbstract
     public function getUserRequestCount()
     {
         $sessionId = $this->session->get('id');
-        $stmt = $this->db->prepare('SELECT count(*) FROM ' . self::TABLE_NAME . ' WHERE recipient_id = :user_id AND accepted = 0');
+        $stmt = $this->db->prepare('SELECT count(*) FROM ' . $this->table . ' WHERE recipient_id = :user_id AND accepted = 0');
         $stmt->bindParam(":user_id", $sessionId);
         $stmt->execute();
         return $stmt->fetchColumn();

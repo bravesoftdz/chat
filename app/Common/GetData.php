@@ -6,13 +6,8 @@ namespace Dykyi\Common;
  * Class GetData
  * @package Dykyi\Common
  */
-class GetData implements IGetData
+class GetData extends GetDataAbstract
 {
-    /**
-     * @var array
-     */
-    private $data = [];
-
     /**
      * GetData constructor.
      */
@@ -20,18 +15,4 @@ class GetData implements IGetData
     {
         $this->data = $_GET;
     }
-
-    /**
-     * @param string $key
-     * @return array|mixed|string
-     */
-    public function get($key = '')
-    {
-        if ($key === ''){
-            return $this->data;
-        }
-
-        return empty($this->data[$key]) ? '' : $this->data[$key];
-    }
-
 }

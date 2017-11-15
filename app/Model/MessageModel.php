@@ -9,7 +9,7 @@ use Dykyi\ModelAbstract;
  */
 class MessageModel extends ModelAbstract
 {
-    const TABLE_NAME = 'messages';
+    public $table = 'messages';
 
     /**
      * @param $recipient_id
@@ -49,10 +49,8 @@ class MessageModel extends ModelAbstract
         $stmt->bindParam(":recipient_id", $this->session->get('id'));
         $stmt->execute();
         $message = $stmt->fetch();
-        if ($message) {
-            if ($this->_setReadMessage($message['id'])) {
-                return $message['message'];
-            }
+        if ($message && $this->_setReadMessage($message['id'])) {
+            return $message['message'];
         }
         return false;
     }

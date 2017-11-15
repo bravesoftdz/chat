@@ -11,7 +11,7 @@ class PushFactory
     /**
      * @var PushInterface
      */
-    private $_push;
+    private $push;
 
     /**
      * PushFactory constructor.
@@ -19,7 +19,7 @@ class PushFactory
      */
     public function __construct(PushInterface $push)
     {
-        $this->_push = $push;
+        $this->push = $push;
     }
 
     /**
@@ -29,7 +29,7 @@ class PushFactory
      */
     public function send($data, $event, $chanel = 'chat-channel')
     {
-        $this->_push->send($data, $event, $chanel);
+        $this->push->send($data, $event, $chanel);
     }
 
 }

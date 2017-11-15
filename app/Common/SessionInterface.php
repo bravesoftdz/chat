@@ -3,19 +3,11 @@
 namespace Dykyi\Common;
 
 /**
- * Interface ISession
+ * Interface SessionInterface
  * @package Dykyi\Common
  */
-interface ISession
+interface SessionInterface
 {
-    /**
-     * Get session value
-     *
-     * @param $key
-     * @return mixed
-     */
-    public function get($key);
-
     /**
      * Set session key and value
      *

@@ -6,7 +6,7 @@ namespace Dykyi\Common;
  * Class Session
  * @package Dykyi\Common
  */
-class Session implements ISession
+class Session implements SessionInterface, GetDataInterface
 {
     public function get($key)
     {

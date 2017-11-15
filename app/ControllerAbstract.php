@@ -97,6 +97,7 @@ abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInt
 
         $view = empty($view) ? $this->route . '/' . $this->action : $view;
         $this->view = $this->_requireToVar(ROOT_DIR . '/views/' . $view . '.php');
+
         return require_once(ROOT_DIR . '/views/layout/' . $this->layout . '.php');
     }
 

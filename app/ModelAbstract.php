@@ -13,7 +13,7 @@ use Dykyi\Common\Session;
 abstract class ModelAbstract
 {
     protected $db = null;
-
+    protected $table = null;
     protected $session = [];
 
     /**

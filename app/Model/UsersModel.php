@@ -11,7 +11,7 @@ use PDOException;
  */
 class UsersModel extends ModelAbstract
 {
-    const TABLE_NAME = 'users';
+    public $table = 'users';
 
     /**
      * @param $password
@@ -37,7 +37,7 @@ class UsersModel extends ModelAbstract
         );
         $data['password'] = $this->passwordGenerate($data['password']);
         try {
-            $sql  = "INSERT INTO " . self::TABLE_NAME . " (name, email, password) VALUES (:name, :email, :password)";
+            $sql  = "INSERT INTO " . $this->table . " (name, email, password) VALUES (:name, :email, :password)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":name", $data['username']);
             $stmt->bindParam(":email", $data['email']);
@@ -59,7 +59,7 @@ class UsersModel extends ModelAbstract
     public function findByEmail($email)
     {
         try {
-            $stmt = $this->db->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE email = :email');
+            $stmt = $this->db->prepare('SELECT * FROM ' . $this->table . ' WHERE email = :email');
             $stmt->bindParam(":email", $email);
             $stmt->execute();
             $user = $stmt->fetch();
@@ -75,7 +75,7 @@ class UsersModel extends ModelAbstract
 
     public function updateActivity()
     {
-        $stmt = $this->db->prepare('UPDATE '. self::TABLE_NAME . ' SET last_active = NOW() WHERE id = :id');
+        $stmt = $this->db->prepare('UPDATE '. $this->table . ' SET last_active = NOW() WHERE id = :id');
         $stmt->bindParam(":id", $this->session->get('id'));
 
         return $stmt->execute();
@@ -88,7 +88,7 @@ class UsersModel extends ModelAbstract
      */
     public function getAll()
     {
-        $stmt = $this->db->query('SELECT * FROM ' . self::TABLE_NAME);
+        $stmt = $this->db->query('SELECT * FROM ' . $this->table);
 
         return $stmt->fetchAll();
     }
@@ -101,9 +101,10 @@ class UsersModel extends ModelAbstract
     public function getAllWithoutMe()
     {
         $stmt = $this->db->prepare(
-            'SELECT users.*, request.accepted FROM ' . self::TABLE_NAME .
+            'SELECT users.*, request.accepted FROM ' . $this->table .
             ' LEFT JOIN request ON recipient_id = users.id AND request.sender_id = :id' .
-            ' WHERE users.id != :id AND users.id NOT IN (select friends.friend_id from friends WHERE friends.user_id = :id)');
+            ' WHERE users.id != :id AND users.id NOT IN '.
+            '(select friends.friend_id from friends WHERE friends.user_id = :id)');
         $stmt->bindParam(":id", $this->session->get('id'));
         $stmt->execute();
 
@@ -140,7 +141,7 @@ class UsersModel extends ModelAbstract
      */
     public function getUserInfo(){
         $sessionId = $this->session->get('id');
-        $stmt = $this->db->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = :id');
+        $stmt = $this->db->prepare('SELECT * FROM ' . $this->table . ' WHERE id = :id');
         $stmt->bindParam(":id", $sessionId);
         $stmt->execute();
 

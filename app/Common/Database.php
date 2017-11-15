@@ -19,21 +19,26 @@ class Database
     /**
      * Get an instance of the Database
      *
+     * @param array $config
+     *
      * @return PDO Database
      */
-    public static function getInstance()
+    public static function getInstance(array $config)
     {
         // If no instance then make one
         if (!self::$instance) {
-            new self();
+            new self($config);
         }
 
         return self::$instance;
     }
 
-    public function __construct()
+    /**
+     * Database constructor.
+     * @param array $config
+     */
+    public function __construct(array $config)
     {
-        $config   = Config::get('db');
         $dsn      = 'mysql:dbname=' . $config['mysql']['db'] . ';host=' . $config['mysql']['host'];
         $user     = $config['mysql']['user'];
         $password = $config['mysql']['password'];

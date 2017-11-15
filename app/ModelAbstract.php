@@ -2,6 +2,7 @@
 
 namespace Dykyi;
 
+use Dykyi\Common\Config;
 use Dykyi\Common\Database;
 use Dykyi\Common\Session;
 
@@ -21,7 +22,7 @@ abstract class ModelAbstract
      */
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance(Config::get('db'));
         $this->session = new Session();
     }
 

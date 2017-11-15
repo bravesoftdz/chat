@@ -12,7 +12,7 @@ interface PushInterface
      * @param $data
      * @param $event
      * @param $chanel
-     * @return mixed
+     * @return bool
      */
     public function send($data, $event, $chanel);
 }

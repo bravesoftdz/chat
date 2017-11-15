@@ -5,6 +5,7 @@ namespace Dykyi\Model;
 use Dykyi\Common\UserEntity;
 use Dykyi\ModelAbstract;
 use PDOException;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 
 /**
  * Class Database
@@ -84,18 +85,23 @@ class UsersModel extends ModelAbstract
     /**
      * Get All Users List
      *
+     * @throws PDOException
+     *
      * @return mixed
      */
     public function getAll()
     {
         $stmt = $this->db->query('SELECT * FROM ' . $this->table);
+        if ($stmt === false){
+            throw new PDOException('DB connection problem');
+        }
 
         return $stmt->fetchAll();
     }
 
     /**
      * Get Users list from user id
-     *
+     * @throws PDOException
      * @return mixed
      */
     public function getAllWithoutMe()
@@ -108,11 +114,16 @@ class UsersModel extends ModelAbstract
         $stmt->bindParam(":id", $this->session->get('id'));
         $stmt->execute();
 
+        if ($stmt === false){
+            throw new PDOException('DB connection problem');
+        }
+
         return $stmt->fetchAll();
     }
 
     /**
-     * @param $email
+     * @param string $email
+     * @return bool
      */
     public function logoutByEmail($email)
     {

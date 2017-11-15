@@ -2,7 +2,7 @@
 
 implemented on the kernel: [MVC](https://github.com/dykyi-roman/mvc/blob/master/README.md)
 
-![image](https://github.com/dykyi-roman/chat/blob/master/tests/screen.png)
+![image](https://github.com/dykyi-roman/chat/blob/master/images/screen.png)
 
 ## Installation
 + run the script ```"db.sql"``` in the folder migration

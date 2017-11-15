@@ -26,10 +26,11 @@ class PushFactory
      * @param $data
      * @param $event
      * @param string $chanel
+     * @return mixed
      */
     public function send($data, $event, $chanel = 'chat-channel')
     {
-        $this->push->send($data, $event, $chanel);
+        return $this->push->send($data, $event, $chanel);
     }
 
 }

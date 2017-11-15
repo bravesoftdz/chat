@@ -2,11 +2,15 @@
 
 namespace Dykyi\Common;
 
+use PHPUnit\Runner\Exception;
+
 /**
  * Class User
  */
 class UserEntity
 {
+    const ERROR_1 = 'Data is Empty';
+
     private $email;
     private $name;
     private $id;
@@ -14,10 +18,15 @@ class UserEntity
 
     /**
      * User constructor.
+     * @throws \Exception
      * @param array $data
      */
     public function __construct($data)
     {
+        if (empty($data)){
+            throw new Exception(self::ERROR_1);
+        }
+
         $this->id       = empty($data['id']) ? null : $data['id'];
         $this->email    = $data['email'];
         $this->password = $data['password'];

@@ -2,6 +2,8 @@
 
 namespace Dykyi\Common;
 
+use Exception;
+
 /**
  * Class SignUp
  */
@@ -9,6 +11,11 @@ class SignUp
 {
     const PASSWORD_LENGTH = 6;
     const EMAIL_LENGTH    = 3;
+
+    const EROR_EMAIL    = 'Email Error';
+    const EROR_PASSWORD = 'Password Error';
+    const EROR_CAPTCHA  = 'Captcha not found!';
+    const ERROR_SPAMMER = "You are spammer ! Get the @$%K out";
 
     private $error;
     private $captcha;
@@ -18,6 +25,7 @@ class SignUp
 
     /**
      * SignUp constructor.
+     * @throws \Exception
      * @param array $post
      */
     public function __construct($post)
@@ -33,14 +41,19 @@ class SignUp
     }
 
     /**
+     * @param bool $use
+     * @throws Exception
      * @return bool
      */
-    private function validationCapcha()
+    private function validationCaptcha($use = true)
     {
+        if (!$use) {
+            return true;
+        }
+
         $recaptcha = Config::get('recaptcha');
         if (!$this->captcha) {
-            $this->error = 'Captcha not found!';
-            return false;
+            throw new Exception(self::EROR_CAPTCHA);
         }
 
         $secretKey = $recaptcha['secret'];
@@ -48,26 +61,25 @@ class SignUp
         $response  = file_get_contents($recaptcha['url'] . '?secret=' . $secretKey . '&response=' . $this->captcha . '&remoteip=' . $ip);
         $result    = json_decode($response, true);
         if ((int)$result['success'] !== 1) {
-            $this->error = "You are spammer ! Get the @$%K out";
-            return false;
+            throw new Exception(self::ERROR_SPAMMER);
         }
-
-        $this->error = '';
         return true;
     }
 
     /**
+     * @throws Exception
      * @return bool
      */
     private function validationEmail()
     {
         if (!$result = strlen($this->user->getUserEmail()) >= self::EMAIL_LENGTH) {
-            $this->error = 'Email Error';
+            throw new Exception(self::EROR_EMAIL);
         }
         return $result;
     }
 
     /**
+     * @throws Exception
      * @return bool
      */
     private function passwordValidate()
@@ -76,20 +88,29 @@ class SignUp
             ($this->user->getPassword() === $this->confirmPassword);
 
         if (!$result) {
-            $this->error = 'Password Error';
+            throw new Exception(self::EROR_PASSWORD);
         }
         return $result;
     }
 
     /**
+     * @param bool $validationCaptcha
      * @return bool
+     * @throws Exception
      */
-    public function validation()
+    public function validation($validationCaptcha = true)
     {
-        return
-            $this->validationCapcha() &&
-            $this->validationEmail() &&
+        try {
+            $this->validationCaptcha($validationCaptcha);
+            $this->validationEmail();
             $this->passwordValidate();
+            $this->error = '';
+
+            return true;
+        } catch (Exception $e) {
+            $this->error = $e->getMessage();
+            throw $e;
+        }
     }
 
     /**

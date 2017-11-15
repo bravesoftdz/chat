@@ -2,6 +2,7 @@
 
 namespace Dykyi\Controller;
 
+use Dykyi\Common\Config;
 use Dykyi\Services\Push\PushClass;
 use Dykyi\Services\Push\PushFactory;
 use Dykyi\ControllerAbstract;
@@ -33,21 +34,28 @@ class IndexController extends ControllerAbstract
         $this->friendModel  = new FriendsModel();
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
-        if ($this->session->get('id')) {
-            $usersList = $this->userModel->getAllWithoutMe();
-        }
-        else {
-            $usersList = $this->userModel->getAll();
-        }
+        try{
+            if ($this->session->get('id')) {
+                $usersList = $this->userModel->getAllWithoutMe();
+            }
+            else {
+                $usersList = $this->userModel->getAll();
+            }
 
-        return $this->view('', [
-            'requestCount' => $this->requestModel->getUserRequestCount(),
-            'user'         => $this->userModel->getUserInfo(),
-            'usersList'    => $usersList,
-            'friendsList'  => $this->friendModel->getUserFriends(),
-        ]);
+            return $this->view('', [
+                'requestCount' => $this->requestModel->getUserRequestCount(),
+                'user'         => $this->userModel->getUserInfo(),
+                'usersList'    => $usersList,
+                'friendsList'  => $this->friendModel->getUserFriends(),
+            ]);
+        } catch (\Exception $e){
+            $this->logger->error($e->getMessage());
+        }
     }
 
     public function changeStatus()
@@ -62,7 +70,8 @@ class IndexController extends ControllerAbstract
     {
         $status = $this->friendModel->removeFriendByUserId($this->post->get('id'));
         if ($status) {
-            $pusher = new PushFactory(new PushClass());
+            $config = Config::get('pusher');
+            $pusher = new PushFactory(new PushClass($config));
             $pusher->send(['user' => [
                     'id' => $this->session->get('id'),
                     'name' => $this->session->get('name'),]], 'friend-remove-event'

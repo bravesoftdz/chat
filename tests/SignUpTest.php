@@ -53,6 +53,14 @@ class SignUpTest extends TestCase
         ];
     }
 
+    /**
+     * @before
+     */
+    public function testdd()
+    {
+        var_dump('sss'); die();
+    }
+
     public function testValidationSuccess()
     {
         $post   = [

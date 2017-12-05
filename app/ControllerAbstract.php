@@ -33,8 +33,9 @@ abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInt
     protected $logger;
 
     /**
-     * AbstractController constructor.
+     * ControllerAbstract constructor.
      *
+     * @param LoggerInterface|null $logger
      */
     public function __construct(LoggerInterface $logger = null)
     {
@@ -77,17 +78,18 @@ abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInt
      *
      * @return string
      */
-    private function _requireToVar($file)
+    private function requireToVar($file)
     {
         ob_start();
-        require($file);
+        require $file;
         return ob_get_clean();
     }
 
     /**
      * @param string $view
      * @param array $params
-     * @return mixed
+     *
+     * @return void
      */
     public function view($view = '', array $params = [])
     {
@@ -96,9 +98,9 @@ abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInt
         }
 
         $view = empty($view) ? $this->route . '/' . $this->action : $view;
-        $this->view = $this->_requireToVar(ROOT_DIR . '/views/' . $view . '.php');
+        $this->view = $this->requireToVar(ROOT_DIR . '/views/' . $view . '.php');
 
-        return require_once(ROOT_DIR . '/views/layout/' . $this->layout . '.php');
+        require_once ROOT_DIR . '/views/layout/' . $this->layout . '.php';
     }
 
     /**
@@ -127,6 +129,7 @@ abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInt
      *
      * @param $data
      * @param $fields
+     *
      * @return bool
      */
     public function toJson($data, array $fields = [])
@@ -166,6 +169,7 @@ abstract class ControllerAbstract implements ControllerInterface, LoggerAwareInt
     {
         $message = $this->session->get('message');
         $this->session->remove('message');
+
         return $message;
     }
 

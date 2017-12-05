@@ -63,10 +63,12 @@ class RequestController extends ControllerAbstract
     {
         $status = $this->requestModel->accept($this->post->get('id'));
         if ($status) {
-            $this->pusher->send(['user' => [
-                'id'   => $this->session->get('id'),
-                'name' => $this->session->get('name')
-            ], 'decline_id' => $this->session->get('id')], 'friend-accept-event');
+            $this->pusher->send([
+                'user'       => [
+                    'id'   => $this->session->get('id'),
+                    'name' => $this->session->get('name'),
+                ],
+                'decline_id' => $this->session->get('id')], 'friend-accept-event');
         }
 
         return $this->json(['success' => $status]);
@@ -79,7 +81,11 @@ class RequestController extends ControllerAbstract
     {
         $status = $this->requestModel->decline($this->post->get('id'));
         if ($status) {
-            $this->pusher->send(['user' => ['id' => $this->post->get('id')], 'decline_id' => $this->session->get('id')], 'request-decline-event');
+            $this->pusher->send(
+                ['user' => ['id' => $this->post->get('id')],
+                 'decline_id' => $this->session->get('id')],
+                'request-decline-event'
+            );
         }
 
         return $this->json(['success' => $status]);

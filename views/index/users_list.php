@@ -19,12 +19,12 @@
                             <td align="center">
                                 <?php if ($this->session->get('user')) { ?>
                                     <small class="text-muted">
-                                        <?php if (is_null($user['accepted'])){ ?>
+                                        <?php if ($user['accepted'] === null){ ?>
                                             <button type="button"
                                                     class="btn btn-default btn-send-user-request user-id-<?= $user['id'] ?>"
                                                     data-user="<?= $user['id'] ?>">
                                                 <span class="glyphicon glyphicon-plus"></span></button>
-                                        <? }else{ ?>
+                                        <?php } else { ?>
                                             <button type="button" class="btn btn-default btn-send-user-request">
                                                 <span class="glyphicon glyphicon glyphicon-ok"></span>
                                             </button>

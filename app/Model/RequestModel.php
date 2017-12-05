@@ -9,8 +9,6 @@ use Dykyi\ModelAbstract;
  */
 class RequestModel extends ModelAbstract
 {
-    public $table = 'request';
-
     /**
      * Get All User friends
      *
@@ -18,7 +16,9 @@ class RequestModel extends ModelAbstract
      */
     public function getUserRequest()
     {
-        $stmt = $this->db->prepare('SELECT users.*, request.sender_id FROM ' . $this->table . ' LEFT JOIN users ON users.id = sender_id WHERE recipient_id = :user_id');
+        $stmt = $this->db->prepare('SELECT users.*, request.sender_id '.
+            'FROM request LEFT JOIN users ON users.id = sender_id '.
+            'WHERE recipient_id = :user_id');
         $stmt->bindParam(":user_id", $this->session->get('id'));
         $stmt->execute();
         return $stmt->fetchAll();
@@ -32,7 +32,7 @@ class RequestModel extends ModelAbstract
     public function getUserRequestCount()
     {
         $sessionId = $this->session->get('id');
-        $stmt = $this->db->prepare('SELECT count(*) FROM ' . $this->table . ' WHERE recipient_id = :user_id AND accepted = 0');
+        $stmt      = $this->db->prepare('SELECT count(*) FROM request WHERE recipient_id = :user_id AND accepted = 0');
         $stmt->bindParam(":user_id", $sessionId);
         $stmt->execute();
         return $stmt->fetchColumn();
@@ -41,30 +41,33 @@ class RequestModel extends ModelAbstract
     /**
      * Send Request to user
      *
-     * @param $recipient_id
+     * @param $recipientId
      * @return mixed
      */
-    public function sendRequest($recipient_id)
+    public function sendRequest($recipientId)
     {
-        $stmt = $this->db->prepare('INSERT INTO request (sender_id, recipient_id, accepted) VALUES (:sender_id, :recipient_id, 0)');
+        $stmt = $this->db->prepare('INSERT INTO request (sender_id, recipient_id, accepted) '.
+            'VALUES (:sender_id, :recipient_id, 0)');
         $stmt->bindParam(":sender_id", $this->session->get('id'));
-        $stmt->bindParam(":recipient_id", $recipient_id);
+        $stmt->bindParam(":recipient_id", $recipientId);
         return $stmt->execute();
     }
 
     /**
-     * @param user_id
+     * @param $userId
      * @return mixed
      */
-    public function accept($user_id)
+    public function accept($userId)
     {
-        $stmt = $this->db->prepare('INSERT INTO friends (user_id, friend_id) VALUES (:user_id, :friend_id), (:friend_id, :user_id)');
-        $stmt->bindParam(":user_id", $user_id);
+        $stmt = $this->db->prepare('INSERT INTO friends (user_id, friend_id) '.
+            'VALUES (:user_id, :friend_id), (:friend_id, :user_id)');
+        $stmt->bindParam(":user_id", $userId);
         $stmt->bindParam(":friend_id", $this->session->get('id'));
         $result = $stmt->execute();
         if ($result) {
-            $stmt = $this->db->prepare('DELETE FROM request WHERE recipient_id = :recipient_id AND sender_id = :sender_id');
-            $stmt->bindParam(":sender_id", $user_id);
+            $stmt = $this->db->prepare('DELETE FROM request '.
+                'WHERE recipient_id = :recipient_id AND sender_id = :sender_id');
+            $stmt->bindParam(":sender_id", $userId);
             $stmt->bindParam(":recipient_id", $this->session->get('id'));
             $result = $stmt->execute();
         }
@@ -82,13 +85,13 @@ class RequestModel extends ModelAbstract
     }
 
     /**
-     * @param $sender_id
+     * @param $senderId
      * @return mixed
      */
-    public function decline($sender_id)
+    public function decline($senderId)
     {
         $stmt = $this->db->prepare('DELETE FROM request WHERE recipient_id = :recipient_id AND sender_id = :sender_id');
-        $stmt->bindParam(":sender_id", $sender_id);
+        $stmt->bindParam(":sender_id", $senderId);
         $stmt->bindParam(":recipient_id", $this->session->get('id'));
         return $stmt->execute();
     }

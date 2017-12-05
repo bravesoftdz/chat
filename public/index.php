@@ -5,6 +5,9 @@ namespace Dykyi;
 use Dotenv\Dotenv;
 use Dykyi\Common\Config;
 
+ini_set('display_errors','On');
+error_reporting('E_ALL & ~E_NOTICE');
+
 $pos              = strripos($_SERVER['DOCUMENT_ROOT'], '/');
 $documentRootPath = mb_strcut($_SERVER['DOCUMENT_ROOT'], 0, $pos);
 define('ROOT_DIR', $documentRootPath);

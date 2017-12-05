@@ -133,5 +133,5 @@ $(function () {
         chat.messageDialog.close();
     });
 
-    setInterval(readMessageTimer, 1000);
+    // setInterval(readMessageTimer, 1000);
 });

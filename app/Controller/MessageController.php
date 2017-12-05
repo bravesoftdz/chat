@@ -29,9 +29,9 @@ class MessageController extends ControllerAbstract
 
     public function send()
     {
-        $recipient_id = $this->post->get('id');
-        $message      = $this->post->get('message');
-        $status       = $this->messageModel->sendMessage($recipient_id, $message);
+        $recipientId = $this->post->get('id');
+        $message     = $this->post->get('message');
+        $status      = $this->messageModel->sendMessage($recipientId, $message);
 
         return $this->json(['success' => $status]);
     }
@@ -40,14 +40,14 @@ class MessageController extends ControllerAbstract
     {
         $messageText = $this->messageModel->readMessage();
 
-        return $this->json(['success'     => $messageText !== false, 'messageText' => $messageText]);
+        return $this->json(['success' => $messageText !== false, 'messageText' => $messageText]);
     }
 
     public function getMessageHistory()
     {
-        $recipient_id = $this->post->get('id');
-        $messages     = $this->messageModel->getMessageHistory($recipient_id);
+        $recipientId = $this->post->get('id');
+        $messages    = $this->messageModel->getMessageHistory($recipientId);
 
-        return $this->json(['success'  => $messages !== false, 'messages' => $messages]);
+        return $this->json(['success' => $messages !== false, 'messages' => $messages]);
     }
 }

@@ -5,15 +5,12 @@ namespace Dykyi\Model;
 use Dykyi\Common\UserEntity;
 use Dykyi\ModelAbstract;
 use PDOException;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 
 /**
  * Class Database
  */
 class UsersModel extends ModelAbstract
 {
-    public $table = 'users';
-
     /**
      * @param $password
      * @return bool|string
@@ -38,7 +35,7 @@ class UsersModel extends ModelAbstract
         );
         $data['password'] = $this->passwordGenerate($data['password']);
         try {
-            $sql  = "INSERT INTO " . $this->table . " (name, email, password) VALUES (:name, :email, :password)";
+            $sql  = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":name", $data['username']);
             $stmt->bindParam(":email", $data['email']);
@@ -60,7 +57,7 @@ class UsersModel extends ModelAbstract
     public function findByEmail($email)
     {
         try {
-            $stmt = $this->db->prepare('SELECT * FROM ' . $this->table . ' WHERE email = :email');
+            $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email');
             $stmt->bindParam(":email", $email);
             $stmt->execute();
             $user = $stmt->fetch();
@@ -76,8 +73,9 @@ class UsersModel extends ModelAbstract
 
     public function updateActivity()
     {
-        $stmt = $this->db->prepare('UPDATE '. $this->table . ' SET last_active = NOW() WHERE id = :id');
-        $stmt->bindParam(":id", $this->session->get('id'));
+        $sessionId = $this->session->get('id');
+        $stmt      = $this->db->prepare('UPDATE users SET last_active = NOW() WHERE id = :id');
+        $stmt->bindParam(":id", $sessionId);
 
         return $stmt->execute();
     }
@@ -91,8 +89,8 @@ class UsersModel extends ModelAbstract
      */
     public function getAll()
     {
-        $stmt = $this->db->query('SELECT * FROM ' . $this->table);
-        if ($stmt === false){
+        $stmt = $this->db->query('SELECT * FROM users');
+        if ($stmt === false) {
             throw new PDOException('DB connection problem');
         }
 
@@ -106,15 +104,16 @@ class UsersModel extends ModelAbstract
      */
     public function getAllWithoutMe()
     {
-        $stmt = $this->db->prepare(
-            'SELECT users.*, request.accepted FROM ' . $this->table .
+        $sessionId = $this->session->get('id');
+        $stmt      = $this->db->prepare(
+            'SELECT users.*, request.accepted FROM users' .
             ' LEFT JOIN request ON recipient_id = users.id AND request.sender_id = :id' .
-            ' WHERE users.id != :id AND users.id NOT IN '.
+            ' WHERE users.id != :id AND users.id NOT IN ' .
             '(select friends.friend_id from friends WHERE friends.user_id = :id)');
-        $stmt->bindParam(":id", $this->session->get('id'));
+        $stmt->bindParam(":id", $sessionId);
         $stmt->execute();
 
-        if ($stmt === false){
+        if ($stmt === false) {
             throw new PDOException('DB connection problem');
         }
 
@@ -150,9 +149,10 @@ class UsersModel extends ModelAbstract
     /**
      * @return mixed
      */
-    public function getUserInfo(){
+    public function getUserInfo()
+    {
         $sessionId = $this->session->get('id');
-        $stmt = $this->db->prepare('SELECT * FROM ' . $this->table . ' WHERE id = :id');
+        $stmt      = $this->db->prepare('SELECT * FROM users WHERE id = :id');
         $stmt->bindParam(":id", $sessionId);
         $stmt->execute();
 

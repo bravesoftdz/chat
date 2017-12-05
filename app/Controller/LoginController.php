@@ -48,9 +48,11 @@ class LoginController extends ControllerAbstract
     }
 
     /**
+     * @throws \Exception
+     *
      * @return bool
      */
-    public function signup()
+    public function signUp()
     {
         $signUp = new SignUp($this->post->get());
         if ($signUp->validation()) {

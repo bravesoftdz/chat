@@ -12,8 +12,6 @@ use PDOException;
  */
 final class FriendsModel extends ModelAbstract
 {
-    public $table = 'friends';
-
     /**
      * Add new user
      *
@@ -23,7 +21,7 @@ final class FriendsModel extends ModelAbstract
     public function add($friend_id)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO " . $this->table . " (user_id, friend_id) VALUES (:user_id, :friend_id)");
+            $stmt = $this->db->prepare("INSERT INTO friends (user_id, friend_id) VALUES (:user_id, :friend_id)");
             $stmt->bindParam(":user_id", $this->session->get('id'));
             $stmt->bindParam(":friend_id", $friend_id);
             return $stmt->execute();

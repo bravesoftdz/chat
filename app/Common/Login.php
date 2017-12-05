@@ -44,12 +44,21 @@ class Login
     }
 
     /**
+     * @param $dayCount
+     * @return int
+     */
+    private function days($dayCount)
+    {
+        return 3600*24*$dayCount;
+    }
+
+    /**
      * @param $user
      * @return bool
      */
     public function remember($user)
     {
-        $hour = time() + 3600 * 24 * 30;
+        $hour = time() + $this->days(30);
         setcookie('user', $user->name, $hour);
         setcookie('password', $user->password, $hour);
 

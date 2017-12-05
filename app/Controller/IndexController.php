@@ -2,6 +2,7 @@
 
 namespace Dykyi\Controller;
 
+use Exception;
 use Dykyi\Common\Config;
 use Dykyi\Services\Push\PushClass;
 use Dykyi\Services\Push\PushFactory;
@@ -9,6 +10,7 @@ use Dykyi\ControllerAbstract;
 use Dykyi\Model\FriendsModel;
 use Dykyi\Model\RequestModel;
 use Dykyi\Model\UsersModel;
+use PhpParser\Node\Stmt\DeclareDeclare;
 
 /**
  * Class IndexController
@@ -53,7 +55,7 @@ class IndexController extends ControllerAbstract
                 'usersList'    => $usersList,
                 'friendsList'  => $this->friendModel->getUserFriends(),
             ]);
-        } catch (\Exception $e){
+        } catch (Exception $e){
             $this->logger->error($e->getMessage());
         }
     }

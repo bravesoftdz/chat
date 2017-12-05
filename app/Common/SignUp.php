@@ -3,6 +3,8 @@
 namespace Dykyi\Common;
 
 use Exception;
+use InvalidArgumentException;
+use LengthException;
 
 /**
  * Class SignUp
@@ -53,7 +55,7 @@ class SignUp
 
         $recaptcha = Config::get('recaptcha');
         if (!$this->captcha) {
-            throw new Exception(self::EROR_CAPTCHA);
+            throw new InvalidArgumentException(self::EROR_CAPTCHA);
         }
 
         $secretKey = $recaptcha['secret'];
@@ -73,7 +75,7 @@ class SignUp
     private function validationEmail()
     {
         if (!$result = strlen($this->user->getUserEmail()) >= self::EMAIL_LENGTH) {
-            throw new Exception(self::EROR_EMAIL);
+            throw new LengthException(self::EROR_EMAIL);
         }
         return $result;
     }
@@ -88,7 +90,7 @@ class SignUp
             ($this->user->getPassword() === $this->confirmPassword);
 
         if (!$result) {
-            throw new Exception(self::EROR_PASSWORD);
+            throw new LengthException(self::EROR_PASSWORD);
         }
         return $result;
     }

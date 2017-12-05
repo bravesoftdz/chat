@@ -14,8 +14,7 @@ class GetDataAbstract implements GetDataInterface
     protected $data = [];
 
     /**
-     * @param string $key
-     * @return array|mixed|string
+     * {@inheritdoc}
      */
     public function get($key = '')
     {

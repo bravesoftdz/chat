@@ -9,8 +9,6 @@ use Dykyi\ModelAbstract;
  */
 class MessageModel extends ModelAbstract
 {
-    public $table = 'messages';
-
     /**
      * @param $recipient_id
      * @param $message
@@ -31,7 +29,7 @@ class MessageModel extends ModelAbstract
      * @param $message_id
      * @return mixed
      */
-    private function _setReadMessage($message_id)
+    private function setReadMessage($message_id)
     {
         $stmt = $this->db->prepare('UPDATE messages SET is_read = 1 WHERE id = :message_id');
         $stmt->bindParam(":message_id", $message_id);
@@ -45,11 +43,12 @@ class MessageModel extends ModelAbstract
      */
     public function readMessage()
     {
-        $stmt = $this->db->prepare('SELECT id, message, created_at FROM messages WHERE recipient_id = :recipient_id AND messages.is_read = 0 order by created_at ASC LIMIT 1');
+        $stmt = $this->db->prepare('SELECT id, message, created_at FROM messages '.
+            'WHERE recipient_id = :recipient_id AND messages.is_read = 0 order by created_at ASC LIMIT 1');
         $stmt->bindParam(":recipient_id", $this->session->get('id'));
         $stmt->execute();
         $message = $stmt->fetch();
-        if ($message && $this->_setReadMessage($message['id'])) {
+        if ($message && $this->setReadMessage($message['id'])) {
             return $message['message'];
         }
         return false;
@@ -59,19 +58,22 @@ class MessageModel extends ModelAbstract
      * Get message history
      *
      * @param $user_id
-     * @return bool
+     *
+     * @return array|bool
      */
     public function getMessageHistory($user_id)
     {
-        $stmt = $this->db->prepare('SELECT * FROM messages WHERE ((recipient_id = :user_1 AND sender_id = :user_2) OR (recipient_id = :user_2 AND sender_id = :user_1)) ORDER BY created_at ASC');
+        $sessionId = $this->session->get('id');
+        $stmt = $this->db->prepare('SELECT * FROM messages '.
+            'WHERE ((recipient_id = :user_1 AND sender_id = :user_2) '.
+            'OR (recipient_id = :user_2 AND sender_id = :user_1)) '.
+            'ORDER BY created_at ASC');
         $stmt->bindParam(":user_1", $user_id);
-        $stmt->bindParam(":user_2", $this->session->get('id'));
+        $stmt->bindParam(":user_2", $sessionId);
         $stmt->execute();
         $messages = $stmt->fetchAll();
-        if ($messages) {
-            return $messages;
-        }
-        return false;
+
+        return $messages ? $messages : false;
     }
 
 

@@ -2,7 +2,7 @@
 
 namespace Dykyi\Common;
 
-use PHPUnit\Runner\Exception;
+use InvalidArgumentException;
 
 /**
  * Class User
@@ -24,7 +24,7 @@ class UserEntity
     public function __construct($data)
     {
         if (empty($data)){
-            throw new Exception(self::ERROR_1);
+            throw new InvalidArgumentException(self::ERROR_1);
         }
 
         $this->id       = empty($data['id']) ? null : $data['id'];

@@ -41,9 +41,10 @@ class LoginController extends ControllerAbstract
                 $this->message = 'Welcome, ' . $user->getUserEmail();
                 return $this->render();
             }
-            else
-                $this->message = $login->getError();
+
+            $this->message = $login->getError();
         }
+
         return $this->render('login', ['message' => 'User not found']);
     }
 

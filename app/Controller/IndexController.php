@@ -31,6 +31,7 @@ class IndexController extends ControllerAbstract
     public function __construct()
     {
         parent::__construct();
+
         $this->userModel    = new UsersModel();
         $this->requestModel = new RequestModel();
         $this->friendModel  = new FriendsModel();

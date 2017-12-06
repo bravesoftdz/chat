@@ -23,10 +23,7 @@ class PushFactory
     }
 
     /**
-     * @param $data
-     * @param $event
-     * @param string $chanel
-     * @return mixed
+     * {@inheritdoc}
      */
     public function send($data, $event, $chanel = 'chat-channel')
     {

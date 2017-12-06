@@ -10,7 +10,6 @@ use Dykyi\ControllerAbstract;
 use Dykyi\Model\FriendsModel;
 use Dykyi\Model\RequestModel;
 use Dykyi\Model\UsersModel;
-use PhpParser\Node\Stmt\DeclareDeclare;
 
 /**
  * Class IndexController

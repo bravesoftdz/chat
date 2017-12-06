@@ -48,17 +48,9 @@ class SignUpTest extends TestCase
                 [
                     //...
                 ],
-                \Dykyi\Common\UserEntity::ERROR_1,
+                \Dykyi\Entity\UserEntity::ERROR_1,
             ],
         ];
-    }
-
-    /**
-     * @before
-     */
-    public function testdd()
-    {
-        var_dump('sss'); die();
     }
 
     public function testValidationSuccess()

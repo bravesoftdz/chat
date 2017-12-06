@@ -2,7 +2,7 @@
 
 namespace Dykyi\Model;
 
-use Dykyi\Common\UserEntity;
+use Dykyi\Entity\UserEntity;
 use Dykyi\ModelAbstract;
 use PDOException;
 

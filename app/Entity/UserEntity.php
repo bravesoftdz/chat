@@ -1,6 +1,6 @@
 <?php
 
-namespace Dykyi\Common;
+namespace Dykyi\Entity;
 
 use InvalidArgumentException;
 

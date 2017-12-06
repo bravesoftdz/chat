@@ -2,6 +2,7 @@
 
 namespace Dykyi\Common;
 
+use Dykyi\Entity\UserEntity;
 use Exception;
 use InvalidArgumentException;
 use LengthException;

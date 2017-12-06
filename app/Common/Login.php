@@ -2,6 +2,8 @@
 
 namespace Dykyi\Common;
 
+use Dykyi\Entity\UserEntity;
+
 /**
  * Class Login
  */
